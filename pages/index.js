@@ -1,10 +1,9 @@
-import Navbar from '../components/Navbar'
-import Tabs from '../components/Tabs'
+import Layout from "../components/Layout";
+import Tabs from "../components/Tabs";
 export default function Home() {
-    return (
-        <div>
-            <Navbar />
-            <Tabs />
-        </div>
-    )
+	return (
+		<Layout>
+			<Tabs />
+		</Layout>
+	);
 }
