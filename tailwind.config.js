@@ -25,10 +25,10 @@ module.exports = {
 					start: "#ff0f7b",
 					end: "#f89b29",
 				},
-				fontFamily: {
-					sans: ["Inter", "sans-serif"],
-					heading: ["Poppins", "sans-serif"],
-				},
+			},
+			fontFamily: {
+				sans: ["Inter", "sans-serif"],
+				heading: ["Poppins", "sans-serif"],
 			},
 		},
 	},
