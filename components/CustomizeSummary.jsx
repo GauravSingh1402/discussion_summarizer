@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 	const [values, setValues] = useState(data);
 	const handleChange = (e) => {
+		console.log(e.target.value);
 		setValues({ ...values, [e.target.name]: parseInt(e.target.values) });
 	};
 	const handleSubmit = (e) => {
