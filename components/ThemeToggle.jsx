@@ -3,11 +3,14 @@ import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 
 const ThemeToggle = () => {
 	const { theme, setTheme } = useTheme();
+	// console.log(theme);
 
 	return (
 		<div
-			className={`flex gap-2 items-center relative rounded-full bg-${theme}-secondary ${
-				theme == "dark" ? "flex-row-reverse" : ""
+			className={`flex gap-2 items-center relative rounded-full ${
+				theme == "dark"
+					? "bg-dark-secondary flex-row-reverse"
+					: "bg-light-secondary"
 			}`}
 		>
 			<button
@@ -20,16 +23,16 @@ const ThemeToggle = () => {
 			>
 				{theme === "dark" ? (
 					<div className="text-white p-2">
-						<SunIcon className="h-5 w-5" />
+						<MoonIcon className="h-5 w-5" />
 					</div>
 				) : (
 					<div className="text-white p-2">
-						<MoonIcon className="h-5 w-5" />
+						<SunIcon className="h-5 w-5" />
 					</div>
 				)}
 			</button>
 			<p className={`py-1 ${theme == "dark" ? "pl-5" : "pr-5"}`}>
-				{theme === "dark" ? "Light mode" : "Dark mode"}
+				{theme === "dark" ? "Dark mode" : "Light mode"}
 			</p>
 		</div>
 	);

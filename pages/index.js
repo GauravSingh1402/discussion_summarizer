@@ -1,9 +1,9 @@
 import Layout from "../components/Layout";
-import Tabs from "../components/Tabs";
+import LandingPage from "../components/LandingPage";
 export default function Home() {
 	return (
 		<Layout>
-			<Tabs />
+			<LandingPage />
 		</Layout>
 	);
 }
