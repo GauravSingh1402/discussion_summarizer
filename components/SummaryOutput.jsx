@@ -36,7 +36,9 @@ const SummaryOutput = () => {
 					Save To Profile
 				</button>
 				</div>
-				<div></div>
+				</div>
+				<div>
+					<hr className="h-px my-8 border-0 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"></hr>
 				</div>
 				<h2 className="font-heading font-medium text-left my-3">
 					Other Summaries

@@ -4,8 +4,7 @@ import TextForm from "../components/TextForm.jsx";
 import AudioForm from "../components/AudioForm";
 import VideoForm from "../components/VideoForm";
 import CustomizeSummary from "./CustomizeSummary";
-import axios from "axios";
-import Router from "next/router";
+
 
 const StepForm = ({ currentTab }) => {
 	// console.log(currentTab);
@@ -21,26 +20,7 @@ const StepForm = ({ currentTab }) => {
 		setStep(step - 1);
 	};
 
-	const handleSummarySubmit = async () => {
-		console.log(data);
-		const response = await axios
-			.post("http://localhost:5000/summarize", data, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-			.then((response) => {
-				console.log(response.data);
-				Router.push({
-  pathname: '/output',
-    query: {	
-    kl: response.data['summary']['kl'],
-    lsa: response.data['summary']['lsa']
-  }
-})
-			})
-			.catch((err) => console.log(err));
-	};
+	
 	return (
 		<div className="w-full flex">
 			{step == 1 && <SelectLanguage onSubmit={handleNext} />}
@@ -55,12 +35,10 @@ const StepForm = ({ currentTab }) => {
 
 			{step == 3 && (
 				<CustomizeSummary
-					onSubmit={handleNext}
 					onPrev={handlePrev}
 					data={data}
 				/>
 			)}
-			{step == 4 && handleSummarySubmit()}
 		</div>
 	);
 };
