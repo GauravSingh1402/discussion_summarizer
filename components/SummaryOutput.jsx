@@ -62,6 +62,7 @@ const SummaryOutput = () => {
 				</div>
 			</div>
 		</div>
+		</div>
 	);
 };
 
