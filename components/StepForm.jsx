@@ -7,12 +7,11 @@ import CustomizeSummary from "./CustomizeSummary";
 
 
 const StepForm = ({ currentTab }) => {
-	// console.log(currentTab);
 	const [step, setStep] = useState(1);
 	const [data, setData] = useState({ limit: 100, top: 10 });
 	const [lang, setLang] = useState("English");
 	const handleNext = (values) => {
-		step == 1 ? setLang(values) : setData({ ...data, ...values });
+		step === 1 ? setLang(values) : setData({ ...data, ...values });
 		setStep(step + 1);
 	};
 
@@ -23,7 +22,7 @@ const StepForm = ({ currentTab }) => {
 	
 	return (
 		<div className="w-full flex">
-			{step == 1 && <SelectLanguage onSubmit={handleNext} />}
+			{step === 1 && <SelectLanguage onSubmit={handleNext} />}
 			{step === 2 &&
 				(currentTab === "Text" ? (
 					<TextForm onSubmit={handleNext} onPrev={handlePrev} data={data} />
@@ -33,7 +32,7 @@ const StepForm = ({ currentTab }) => {
 					<VideoForm onSubmit={handleNext} onPrev={handlePrev} data={data} />
 				) : null)}
 
-			{step == 3 && (
+			{step === 3 && (
 				<CustomizeSummary
 					onPrev={handlePrev}
 					data={data}

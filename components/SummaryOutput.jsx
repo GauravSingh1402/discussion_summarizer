@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 const SummaryOutput = () => {
 	const router = useRouter();
 	const { theme, setTheme } = useTheme();
-	const { kl,lsa } = router.query;
+	const { kl, lsa } = router.query;
 	return (
 		<div className="flex flex-col items-center w-full px-5 py-8 justify-center gap-10">
 			<h1 className="text-3xl text-transparent bg-clip-text font-heading font-bold bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
-					Summary Output
-				</h1>
-				<div className="w-[70%] relative my-10">
+				Summary Output
+			</h1>
+			<div className="w-[70%] relative my-10">
 				<div
 					className={`absolute inset-0 w-full rounded-lg mt-5 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-xl opacity-50 flex justify-center`}
 				></div>
@@ -60,7 +60,6 @@ const SummaryOutput = () => {
 				</button>
 				</div>
 				</div>
-			</div>
 			</div>
 		</div>
 	);
