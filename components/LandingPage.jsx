@@ -45,7 +45,8 @@ const LandingPage = () => {
           <div
             className={`absolute inset-0 w-full rounded-lg bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-xl opacity-50 flex justify-center align-center`}
           ></div>
-          <div className={`relative w-full rounded-lg flex flex-col w-[400px] h-[300px] bg-white`}>
+           <div className={`relative w-full rounded-lg flex flex-col w-[400px] h-[300px] bg-white`}>
+            <Image width={400} height={300} className="cursor-pointer" src={businestartup} />
           </div>
         </div>
             <div className="w-full flex flex-col justify-evenly sm:w-[50%] align-center">
@@ -89,6 +90,7 @@ const LandingPage = () => {
             className={`absolute inset-0 w-full rounded-lg bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-xl opacity-50 flex justify-center align-center`}
           ></div>
           <div className={`relative w-full rounded-lg flex flex-col w-[400px] h-[300px] bg-white`}>
+            <Image width={400} height={300} className="cursor-pointer" src={businestartup} />
           </div>
         </div>
       </div>
