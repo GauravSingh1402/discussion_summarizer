@@ -22,6 +22,7 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
           query: {
             kl: response.data["summary"]["kl"],
             lsa: response.data["summary"]["lsa"],
+            title: response.data["summary"]["title"],
           },
         });
       })
