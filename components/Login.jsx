@@ -3,8 +3,8 @@ import React from "react";
 const Login = () => {
 	return (
 		<div className="relative flex w-full h-full justify-center items-center">
-			<div className="absolute m-auto inset-0 w-[30%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-md rounded-md"></div>
-			<form className="relative w-[30%] bg-light-primary p-8 rounded-md flex flex-col items-center gap-5">
+			<div className="absolute m-auto inset-0 w-[85%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-md rounded-md"></div>
+			<form className="relative w-[85%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] bg-light-primary p-8 rounded-md flex flex-col items-center gap-5">
 				<h1 className="font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
 					Login
 				</h1>
