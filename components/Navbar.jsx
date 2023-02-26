@@ -23,7 +23,10 @@ const Navbar = () => {
 				/>
 			</div>
 			<ThemeToggle />
-			<div>
+			<div className="flex items-center gap-5 font-medium">
+				<a className="hover:underline" href="/login">
+					Login
+				</a>
 				<button
 					onClick={() => {
 						Router.push("/generateSummary");
