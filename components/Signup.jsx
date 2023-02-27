@@ -44,7 +44,6 @@ const Signup = () => {
 					title: 'Success',
 					text: 'SignUp Successfull',
 				  })
-				  Router.push("/");
 				}
 				if (response.data=="User already exists")
 				{
@@ -53,7 +52,7 @@ const Signup = () => {
 					title: 'Warning',
 					text: 'User already exists',
 				  })
-				  Router.push("/");
+				  Router.push("/login");
 				}
 				else
 				{

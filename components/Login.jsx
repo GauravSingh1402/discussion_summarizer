@@ -46,7 +46,6 @@ const Login =  () => {
                 title: 'Success',
                 text: 'Login Successfull',
               })
-              Router.push("/");
             }
             else
             {
