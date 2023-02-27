@@ -49,7 +49,7 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:2000/getS3Url",
+        "https://summasense-services-production.up.railway.app/getS3Url",
         body,
         {
           headers: {
@@ -82,7 +82,7 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:2000/transcribe",
+        "https://summasense-services-production.up.railway.app/transcribe",
         data,
         {
           headers: {
@@ -145,7 +145,12 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
             <div
               className={`bg-gray-500 w-full flex flex-col justify-center p-5 rounded-md`}
             >
-              <div className="flex flex-row items-center justify-between">
+              <div className='flex flex-row items-center justify-center'>
+                <div>
+                 <svg className='text-content w-10 h-10 mr-1' viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><rect fill="none" height="256" width="256"/><polyline fill="none" points="152 32 152 88 208 88" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/><path d="M168,224h32a8,8,0,0,0,8-8V88L152,32H56a8,8,0,0,0-8,8v88" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/><polygon fill="none" points="48 204 48 172 72 172 96 152 96 224 72 204 48 204" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/><path d="M128,163a32,32,0,0,1,0,50" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/></svg>
+                </div>
+                <div className='w-full flex flex-col justify-center'>
+                  <div className="flex flex-row items-center justify-between">
                 <p className="text-white">{fileName}</p>
                 <p className="italic text-gray-300">{progressText}</p>
               </div>
@@ -159,6 +164,8 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
               )}
               <div>
                 <p className="text-gray-300 text-xs"> {fileInMb}</p>
+              </div>
+                </div>
               </div>
             </div>
           ) : (
