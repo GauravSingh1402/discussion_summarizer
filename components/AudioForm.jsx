@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useTheme } from "next-themes";
 import Uploader from "./AudioFormComp/Uploader";
-const AudioForm = () => {
-  const [text, setText] = useState("");
+const AudioForm = ({ onSubmit, onPrev, data }) => {
   const { theme, setTheme } = useTheme();
   const [currentTab, setCurrentTab] = useState("Record");
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -103,17 +102,9 @@ const handleFileUpload = async (e) => {
       {
         currentTab == "Record" ? (<></>) : (<>
         <div className="w-full flex flex-col items-center justify-center">
-               <Uploader/>
-     <input type='file' onChange={(e)=>{handleFileUpload(e)}}/>
-      {uploadProgress > 0 && (
-        <div className="w-full h-3 bg-gray-300 rounded-full">
-          <div
-            className="h-full bg-green-500 rounded-full"
-            style={{ width: `${uploadProgress}%` }}
-          ></div>
-        </div>
-      )}
-     <p>{text}</p>
+               <Uploader onSubmit={onSubmit} onPrev={onPrev} data={data}/>
+               <div className='w-full flex flex-col items-center justify-center'>
+      </div>
     </div>
         </>)
       }

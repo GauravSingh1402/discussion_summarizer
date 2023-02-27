@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import { useTheme } from "next-themes";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-const Uploader = () => {
+const Uploader = ({ onSubmit, onPrev, data }) => {
   const { theme, setTheme } = useTheme();
   const [ uploadedfile, setUploadedFile] = useState();
   const [ fileName, setFileName ] = useState();
@@ -10,13 +10,16 @@ const Uploader = () => {
   const [switchDisplay, setswitchDisplay] = useState('upload');
   const [uploadProgress, setUploadProgress] = useState(0);
   const [progressText,setProgressText] = useState('Not Uploaded');
+  const [values,setValues] = useState(data);
   const [text, setText] = useState('');
    const [disableBtn,setDisableBtn] = useState(false);
+   const handleSubmit = (e) => {
+		e.preventDefault();
+		onSubmit(values);
+	};
   const handleFile=(e)=>{
     const file = e.target.files[0];
-    console.log(file.name,file.type,file.size);
     const modifiedSize = `${(parseInt(file.size) * 0.0009765625 * 0.0009765625).toFixed(2)}` + 'MB'
-    console.log(modifiedSize);
     setUploadedFile(file);
     setFileName(file.name);
     setFileInMb(modifiedSize);
@@ -24,7 +27,6 @@ const Uploader = () => {
   }
 
 const uploadFile = async (url, file, onUploadProgress) => {
-console.log(file,url);
   return axios.put(url, file, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -35,7 +37,6 @@ console.log(file,url);
 
 const handleFileUpload = async () => {
   const file = uploadedfile
-  console.log(file);
   const fileType = file.name.split(".").pop().toLowerCase();
 
   const s3Key = `${file.name.split(".").pop() + uuidv4()}`;
@@ -50,22 +51,19 @@ const handleFileUpload = async () => {
         "Content-Type": "application/json",
       },
     });
-
-    console.log(response.data);
     s3Url = response.data["url"];
   } catch (error) {
-    console.log(error);
   }
 
   await uploadFile(s3Url, file, (progressEvent) => {
-    console.log("Upload progress: ", progressEvent.loaded / progressEvent.total);
+  setDisableBtn(!disableBtn);
     setUploadProgress((progressEvent.loaded / progressEvent.total) * 100);
     setProgressText(`Uploading... ${((progressEvent.loaded / progressEvent.total) * 100).toFixed(2)}%`);
   });
 
   const fileUrl = s3Url.split("?")[0];
 
-  setProgressText("Extracting Text ...");
+  setProgressText("Extracting Text");
   setswitchDisplay('extract');
   const data = {
     audioUrl: fileUrl,
@@ -79,11 +77,13 @@ const handleFileUpload = async () => {
       },
     });
 
-    console.log(response.data);
     setswitchDisplay('result')
     setText(response.data["transcript"]);
+    setValues({ ...values, 'text': response.data["transcript"]});
+    setProgressText('Not Uploaded');
+    setDisableBtn(!disableBtn);
+  setUploadProgress(0);
   } catch (error) {
-    console.log(error);
   }
 };
   return (
@@ -126,10 +126,12 @@ const handleFileUpload = async () => {
       </div>) : (
 <div className='w-full flex flex-col items-center justify-center'>
       <svg className="animate-spin text-content w-20 h-20 feather feather-loader" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="4.93" x2="7.76" y1="4.93" y2="7.76"/><line x1="16.24" x2="19.07" y1="16.24" y2="19.07"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/><line x1="4.93" x2="7.76" y1="19.07" y2="16.24"/><line x1="16.24" x2="19.07" y1="7.76" y2="4.93"/></svg>
-      {progressText}
+      <p>{progressText}</p>
+      <p className='text-gray-300 text-xs italic'>This might take several minutes ...</p>
     </div>
       )
       }
+     {disableBtn ? '' : 
       <div className="flex w-full justify-between my-5">
 				<button
 					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[45%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-5 py-2 hover:scale-110 transition-all"
@@ -144,9 +146,10 @@ const handleFileUpload = async () => {
 					Extract Text
 				</button>
 			</div>
+     }
     </div> : ''}
     {switchDisplay=='result' && (
-      <div className='flex flex-col'>
+      <div className='w-full flex flex-col items-center justify-center'>
         <textarea
 				rows={8}
 				className="bg-light-primary rounded-md p-5 w-[80%] flex-wrap text-black"
@@ -154,7 +157,22 @@ const handleFileUpload = async () => {
 				name="text"
 				type="text"
         value={text}
+        onChange={(e)=>{setText(e.target.value);setValues({ ...values, 'text': e.target.value});}}
 			/>
+      <div className="flex w-[20%] justify-between my-5">
+				<button
+					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[45%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-5 py-2 hover:scale-110 transition-all"
+					onClick={()=>{setswitchDisplay('upload')}}
+				>
+					Back
+				</button>
+				<button
+					className="font-heading text-white w-[45%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-5 py-2 hover:scale-110 transition-all"
+				onClick={handleSubmit}
+        >
+					Next
+				</button>
+			</div>
       </div>
     )}
 </div>
