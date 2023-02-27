@@ -65,14 +65,7 @@ const Signup = () => {
 				}
 			  })
 			
-		}
-		else{
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text:  	'Google Auth error!',
-			  })
-		}
+			}
 	  
 		  
 	  }
@@ -121,7 +114,7 @@ const Signup = () => {
 			}
 		});
 	}
-	if(flag==0 && ses.user)
+	if(flag==0)
 	{
 	  gsignup();
 	  setFlag(1);
