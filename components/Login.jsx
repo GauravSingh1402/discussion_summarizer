@@ -19,7 +19,6 @@ const Login =  () => {
   const [flag,setFlag] = useState(0);
   const ses= getSession();
   const clientId = process.env.GOOGLE_CLIENT_ID;
-  let result;
   const gsignin = async () => {
     const session = await getSession();
     if(session)
@@ -59,13 +58,6 @@ const Login =  () => {
             }
           })
         
-    }
-    else{
-      Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text:  	'Google Auth error!',
-			  })
     }
   }
 
@@ -110,10 +102,11 @@ const Login =  () => {
       console.log(error);
     }
   };
-  if(flag==0 && ses.user)
+  if(flag==0)
   {
     gsignin();
     setFlag(1);
+   
   }
   return (
     <div className="relative flex w-full h-full justify-center items-center">
