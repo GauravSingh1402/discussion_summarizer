@@ -1,6 +1,123 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import Router from "next/router";
+import axios from "axios";
+import Swal from 'sweetalert2';
+import { useSession, signIn, signOut ,getSession} from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Signup = () => {
+	const [flag,setFlag] = useState(0);
+	const ses= getSession();
+	const linkk=process.env.NEXT_PUBLIC_URL
+	const [password, setPassword] = useState("");
+  	const [email, setEmail] = useState("");
+  	const [name, setName] = useState("");
+	const gsignup = async () => {
+		const session = await getSession();
+		if(session)
+		{
+		  const udata = {
+			email: session.user.email,
+			first_name: session.user.name.slice(0,session.user.name.indexOf(" ")),
+			last_name: session.user.name.slice(session.user.name.indexOf(" ")+1,session.user.name.length),
+		  };
+		  console.log(udata);
+		  const response = await axios
+			  .post(
+				`https://discussionsummarizerbackend-production.up.railway.app/gsignup`,
+				udata,
+				{
+				  headers: {
+					"Content-type": "application/json",
+				  },
+			withCredentials:true
+				}
+			  )
+			  .then((response) => {
+				console.log(response.data);
+				if (response.data=="Inserted")
+				{
+				  Swal.fire({
+					icon: 'success',
+					title: 'Success',
+					text: 'SignUp Successfull',
+				  })
+				}
+				if (response.data=="User already exists")
+				{
+				  Swal.fire({
+					icon: 'warning',
+					title: 'Warning',
+					text: 'User already exists',
+				  })
+				  Router.push("/login");
+				}
+				else
+				{
+				  Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Invalid Credentials!',
+				  })
+				}
+			  })
+			
+			}
+	  
+		  
+	  }
+	
+	  const handleSignIn = async () => {
+		try{
+			signIn("google");
+		}
+		catch(e){
+			console.log(e)
+		}
+		
+	  };
+	const submit = async () => {
+		const fname=name.slice(0,name.indexOf(" "));
+		const lname=name.slice(name.indexOf(" ")+1,name.length);
+		console.log(fname,lname);
+		const data = { email:email, password:password, first_name:fname, last_name :lname};
+		console.log(data);
+		const resp=await axios.post(`https://discussionsummarizerbackend-production.up.railway.app/signup`,data).then((response) => {
+			console.log(response);
+			if (response.data == "User already exists") {	
+				Swal.fire({	
+					icon: "warning",
+					title: "User already exists",	
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			} 
+			if (response.data == "User already exists") {	
+				Swal.fire({	
+					icon: "warning",
+					title: "User already exists",	
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			} 
+			else {
+				Swal.fire({
+					icon: "success",
+					title: "Sign Up Successfull",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+				Router.push("/login");
+			}
+		});
+	}
+	if(flag==0)
+	{
+	  gsignup();
+	  setFlag(1);
+	}
 	return (
 		<div className="relative flex w-full h-full justify-center items-center my-2">
 			<div className="absolute m-auto inset-0 w-[85%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-xl rounded-md"></div>
@@ -24,6 +141,7 @@ const Signup = () => {
 						id="name"
 						placeholder="Enter your full name"
 						className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
+						onChange={(e) => setName(e.target.value)}
 					/>
 					<input
 						type="email"
@@ -31,6 +149,7 @@ const Signup = () => {
 						id="email"
 						placeholder="Enter your email address"
 						className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<input
 						type="password"
@@ -38,9 +157,13 @@ const Signup = () => {
 						id="password"
 						placeholder="Enter a strong password"
 						className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
+						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</div>
-				<button className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105">
+				<button   onClick={(e) => {
+            e.preventDefault();
+            submit();
+          }}className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105">
 					Register
 				</button>
 				<div className="w-full flex items-center">
@@ -50,7 +173,11 @@ const Signup = () => {
 					</h4>
 					<div className="border border-custom-gradient-end h-[1px] flex-1"></div>
 				</div>
-				<button className="bg-light-secondary text-light-content flex items-center gap-4 justify-center font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105">
+				<button 
+          onClick={(e) => {
+            e.preventDefault();
+            handleSignIn();
+          }} className="bg-light-secondary text-light-content flex items-center gap-4 justify-center font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105">
 					<svg className="w-5 h-5" viewBox="0 0 128 128">
 						<path
 							fill="#fff"
