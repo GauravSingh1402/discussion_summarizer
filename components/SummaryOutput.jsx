@@ -5,7 +5,7 @@ const SummaryOutput = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { kl, lsa, title } = router.query;
-  const link = process.env.NEXT_PUBLIC_API_URL;
+  const link = "https://discussionsummarizerbackend-production.up.railway.app/";
   const profile = async (title, summary) => {
     const res = await axios(`${link}auth`, {
       method: "GET",
