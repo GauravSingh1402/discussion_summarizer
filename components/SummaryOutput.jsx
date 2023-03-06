@@ -48,7 +48,7 @@ const SummaryOutput = () => {
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: "Invalid Credentials!",
+              text: "Summmary couldnt be saved!",
             });
           }
         });
