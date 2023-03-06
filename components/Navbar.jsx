@@ -65,7 +65,7 @@ const Navbar = () => {
       <ThemeToggle />
       <div className="flex items-center gap-5 font-medium">
         {user !== "Unauthorized" ? (
-          <Link href="/profile">
+          <Link href="/account">
             <a className="hover:underline">Profile</a>
           </Link>
         ) : (
