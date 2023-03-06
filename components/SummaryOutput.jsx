@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
+import axios from "axios";
+import Swal from "sweetalert2";
 const SummaryOutput = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -16,7 +18,7 @@ const SummaryOutput = () => {
       withCredentials: true,
     });
     console.log(res);
-    const email = res.user_id;
+    const email = res.data.user_id;
     const udata = {
       email: email,
       sum: {
@@ -24,24 +26,24 @@ const SummaryOutput = () => {
         title: title,
       },
     };
-    if (res.status == 200 && res.error != undefined) {
+	console.log(udata)
+    if (res.status == 200 && res.data.user_id!=undefined)  {
       console.log("AUTH SUCCESS");
-      const response = await axios
+      const resp = await axios
         .post(`${link}save_summary`, udata, {
           headers: {
             "Content-type": "application/json",
           },
-          withCredentials: true,
+		  withCredentials: true,
         })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data == "login successfull") {
+        .then((resp) => {
+          console.log(resp.data);
+          if (resp.data == "Updated") {
             Swal.fire({
               icon: "success",
               title: "Success",
               text: "Summary saved  Successfully",
             });
-            router.push("/");
           } else {
             Swal.fire({
               icon: "error",
@@ -51,7 +53,7 @@ const SummaryOutput = () => {
           }
         });
     } else {
-      router.push("/login");
+      console.log("else")
     }
   };
   return (
@@ -78,7 +80,7 @@ const SummaryOutput = () => {
                 Copy To ClipBoard
               </button>
               <button
-                onClick={profile(title, "")}
+			    onClick={() => profile(title,"")}
                 className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
               >
                 Save To Profile
@@ -97,7 +99,7 @@ const SummaryOutput = () => {
                 Copy To ClipBoard
               </button>
               <button
-                onClick={profile("", lsa)}
+                onClick={() => profile(" ",lsa)}
                 className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
               >
                 Save To Profile
@@ -119,7 +121,7 @@ const SummaryOutput = () => {
                 Copy To ClipBoard
               </button>
               <button
-                onClick={profile("", kl)}
+			    onClick={() => profile(" ",kl)}
                 className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
               >
                 Save To Profile

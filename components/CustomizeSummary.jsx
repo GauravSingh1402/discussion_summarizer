@@ -17,12 +17,13 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 			})
 			.then((response) => {
 				console.log(response.data);
+				console.log(JSON.stringify(response.data));
 				Router.push({
 					pathname: "/output",
 					query: {
 						kl: response.data["summary"]["kl"],
 						lsa: response.data["summary"]["lsa"],
-						title: response.data["summary"]["title"][0]["summary_text"],
+						title:response.data["summary"]["title"],
 					},
 				});
 			})
