@@ -14,7 +14,7 @@ const Account = () => {
           className={`absolute inset-0 w-full rounded-lg mt-5 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-xl opacity-50 flex justify-center`}
         ></div>
         <div
-          className={`relative w-full rounded-lg mt-5 bg-${theme}-secondary flex flex-row`}
+          className={`relative w-full min-h-[70%] rounded-lg mt-5 bg-${theme}-secondary flex flex-row`}
         >
           <div className="w-[30%] flex flex-col bg-[#fafafa] rounded-md">
             <button
