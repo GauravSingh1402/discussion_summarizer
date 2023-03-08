@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 const SummaryOutput = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const { kl, lsa, title } = router.query;
+  const { kl, lsa, title ,text} = router.query;
   const link = "https://discussionsummarizerbackend-production.up.railway.app/";
   const profile = async (title, summary) => {
     const res = await axios(`${link}auth`, {
@@ -24,11 +24,11 @@ const SummaryOutput = () => {
       sum: {
         summary: summary,
         title: title,
+        text: text
       },
     };
 	console.log(udata)
     if (res.status == 200 && res.data.user_id!=undefined)  {
-      console.log("AUTH SUCCESS");
       const resp = await axios
         .post(`${link}save_summary`, udata, {
           headers: {
@@ -37,8 +37,8 @@ const SummaryOutput = () => {
 		  withCredentials: true,
         })
         .then((resp) => {
-          console.log(resp.data);
-          if (resp.data == "Updated") {
+          console.log(resp.data.data);
+          if (resp.data.data == "Updated") {
             Swal.fire({
               icon: "success",
               title: "Success",
@@ -48,12 +48,12 @@ const SummaryOutput = () => {
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: "Summmary couldnt be saved!",
+              text: "Summmary could not  be saved!",
             });
           }
         });
     } else {
-      console.log("else")
+      router.push('/login')
     }
   };
   return (
