@@ -67,6 +67,42 @@ const Login =  () => {
       console.log("Google sign-in error:", error);
     }
   };
+  const forgot_password = async () =>
+  {
+    const udata = {
+      email: email,
+    };
+    const response = await axios
+          .post(
+            `${linkk}forgot_password`,
+            udata,
+            {
+              headers: {
+                "Content-type": "application/json",
+              },
+        withCredentials:true
+            }
+          )
+          .then((response) => {
+            console.log(response.data.data);
+            if (response.data.data=="success")
+            {
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Password reset link sent to your email',
+              })
+            }
+            else
+            {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Invalid Credentials!',
+              })
+            }
+          })
+  }
   const submit = async () => {
     const udata = {
       email: email,
@@ -83,12 +119,7 @@ const Login =  () => {
         .then((response) => {
           console.log(response.data);
           if (response.data == "login successfull") {
-            Swal.fire({
-              icon: "success",
-              title: "Success",
-              text: "Login Successfull",
-            });
-            Router.push("/");
+            router.push("/");
           } else {
             Swal.fire({
               icon: "error",
@@ -155,9 +186,12 @@ const Login =  () => {
                 Remember me
               </label>
             </div>
-            <a className="text-sm font-medium text-dark-secondary" href="/">
+            <button     onClick={(e) => {
+            e.preventDefault();
+            forgot_password();
+          }} className="text-sm font-medium text-dark-secondary" >
               Forgot Password?
-            </a>
+            </button>
           </div>
         </div>
         <button
