@@ -7,11 +7,17 @@ import { useTheme } from "next-themes";
 import Router from "next/router";
 import axios from "axios";
 import Link from "next/link";
+import { HiMenuAlt4 } from "react-icons/hi";
+import { AiOutlineClose } from "react-icons/ai";
+
+const NavBarItem = ({ title, classprops }) => (
+  <li className={`mx-4 cursor-pointer ${classprops}`}>{title}</li>
+);
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [user, setUser] = useState();
-
+  const [toggleMenu, setToggleMenu] = React.useState(false);
   const link = "https://discussionsummarizerbackend-production.up.railway.app/";
 
   const profile = async () => {
@@ -29,15 +35,11 @@ const Navbar = () => {
       if (res.data !== "Unauthorized") {
         const email = res.data.user_id;
         console.log(email);
-		if(email!=undefined)
-		{
-			setUser(email);
-		}
-		else
-		{
-			setUser("Unauthorized");
-		}
-    
+        if (email != undefined) {
+          setUser(email);
+        } else {
+          setUser("Unauthorized");
+        }
       } else {
         setUser("Unauthorized");
       }
@@ -52,37 +54,76 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="w-full flex justify-between px-6 py-4 items-center">
-      <div className="w-1/6">
-        <Image
-          className="cursor-pointer"
-          onClick={() => {
-            Router.push("/");
-          }}
-          src={theme == "light" ? logoBlack : logoWhite}
-        />
-      </div>
-      <ThemeToggle />
-      <div className="flex items-center gap-5 font-medium">
-        {user !== "Unauthorized" ? (
-          <Link href="/account">
-            <a className="hover:underline">Profile</a>
-          </Link>
-        ) : (
-          <Link href="/login">
-            <a className="hover:underline">Login</a>
-          </Link>
-        )}
-        <button
-          onClick={() => {
-            Router.push("/generateSummary");
-          }}
-          className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
-        >
-          Generate Summary
-        </button>
-      </div>
-    </nav>
+      <nav className="w-full flex justify-around items-center px-6 py-4 ">
+        <div className="w-3/6 sm:w-1/6">
+          <Image
+            className="cursor-pointer"
+            onClick={() => {
+              Router.push("/");
+            }}
+            src={theme == "light" ? logoBlack : logoWhite}
+          />
+        </div>
+        <div className="hidden md:flex">
+          <ThemeToggle />
+        </div>
+        <ul className="text-content md:flex hidden list-none flex-row justify-between items-center ">
+          {user !== "Unauthorized" ? (
+            <li className="mx-4 cursor-pointer hover:underline transition-all">
+              <Link href="/account">Profile</Link>
+            </li>
+          ) : (
+            <li className="mx-4 cursor-pointer hover:underline transition-all">
+              <Link href="/login">Login</Link>
+            </li>
+          )}
+
+          <li className="cursor-pointer mx-4 py-2 px-7 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
+            <Link href="/generateSummary">Generate Summary</Link>
+          </li>
+        </ul>
+        <div className="md:hidden flex relative">
+          {!toggleMenu && (
+            <HiMenuAlt4
+              fontSize={28}
+              className="text-white md:hidden cursor-pointer"
+              onClick={() => setToggleMenu(true)}
+            />
+          )}
+          {toggleMenu && (
+            <AiOutlineClose
+              fontSize={28}
+              className="text-white md:hidden cursor-pointer"
+              onClick={() => setToggleMenu(false)}
+            />
+          )}
+          {toggleMenu && (
+            <ul
+              className="z-10 fixed -top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hidden list-none
+            flex flex-col justify-start items-end rounded-md bg-[#27335966] backdrop-blur-sm shadow-[0_4px_30px_rgba(0, 0, 0, 0.2)] border-[1px] border-[#0000004d] rounded-[16px] border-solid text-white animate-slide-in"
+            >
+              <li className="text-xl w-full my-2">
+                <AiOutlineClose onClick={() => setToggleMenu(false)} />
+              </li>
+              <li className="text-xl w-full my-2">
+                <ThemeToggle />
+              </li>
+              {user !== "Unauthorized" ? (
+                <li className="my-2 text-lg  mx-4 cursor-pointer hover:underline transition-all">
+                  <Link href="/account">Profile</Link>
+                </li>
+              ) : (
+                <li className="my-2 text-lg  mx-4 cursor-pointer hover:underline transition-all">
+                  <Link href="/login">Login</Link>
+                </li>
+              )}
+              <li className="my-2 text-lg  mx-4 cursor-pointer hover:underline transition-all">
+                <Link href="/generateSummary">Summary</Link>
+              </li>
+            </ul>
+          )}
+        </div>
+      </nav>
   );
 };
 
