@@ -10,7 +10,7 @@ const appId = "41c98519-9d2c-49a8-891c-606cfb75c911";
 const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
 SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
 
-const Recorder = () => {
+const Recorder = ({ onSubmit, onPrev, data }) => {
   const {
     transcript,
     listening,
@@ -19,6 +19,14 @@ const Recorder = () => {
   } = useSpeechRecognition();
   const [prompts, setprompts] = useState("");
   const [text, setText] = useState(transcript);
+  const [values, setValues] = useState(data);
+  const handleSubmit = (e) => {
+    let val = {...values};
+    val['text'] = transcript;
+    e.preventDefault();
+    console.log(val);
+    onSubmit(val);
+  };
   const startListening = () => {
     setprompts("Turning On Mic ...");
     SpeechRecognition.startListening({ continuous: true });
@@ -42,14 +50,15 @@ const Recorder = () => {
     <div className="flex flex-col items-center justify-center">
       <textarea
         rows={8}
-        className="bg-light-primary rounded-md p-5 w-[80%] flex-wrap text-black mt-4"
+        className="bg-light-primary rounded-md p-5 w-[90%] sm:w-[80%] flex-wrap text-black mt-4"
         placeholder="Add your content here"
         name="text"
         type="text"
         value={text}
         onChange={handleChange}
       />
-      <div className="my-3 flex w-full items-center justify-center">
+      <p className='my-2 text-xs sm:text-sm: md:text-md'>{prompts}</p>
+      <div className="flex w-full items-center justify-center">
         <button
           className="mr-2 text-white bg-gray-500 cursor-pointer rounded-full p-3"
           onClick={resetTranscript}
@@ -60,7 +69,7 @@ const Recorder = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6 text-black"
+            className="w-4 sm:w-6 h-4 sm:h-6"
           >
             <path
               strokeLinecap="round"
@@ -73,10 +82,11 @@ const Recorder = () => {
           {listening ? (
             <svg
               onClick={stopListening}
-              className="w-6 h-6 text-white"
+              className="w-4 sm:w-6 h-4 sm:h-6"
               height="24"
               viewBox="0 0 24 24"
-              width="24"
+              stroke="currentColor"
+              strokeWidth={1.5}
               xmlns="http://www.w3.org/2000/svg"
             >
               <path d="M12 16c2.206 0 4-1.794 4-4V6c0-2.217-1.785-4.021-3.979-4.021a.933.933 0 0 0-.209.025A4.006 4.006 0 0 0 8 6v6c0 2.206 1.794 4 4 4z" />
@@ -85,7 +95,9 @@ const Recorder = () => {
           ) : (
             <svg
               onClick={startListening}
-              className="w-6 h-6 text-white"
+              className="w-4 sm:w-6 h-4 sm:h-6"
+              stroke="currentColor"
+              strokeWidth={1.5}
               viewBox="0 0 256 256"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -97,19 +109,20 @@ const Recorder = () => {
           )}
         </button>
       </div>
-      <p>{prompts}</p>
-      <div className="flex w-[20%] justify-between my-5">
-        <button
-          className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[45%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-5 py-2 hover:scale-110 transition-all"
-        >
-          Back
-        </button>
-        <button
-          className="font-heading text-white w-[45%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-5 py-2 hover:scale-110 transition-all"
-        >
-          Next
-        </button>
-      </div>
+      <div className="mt-2 mb-4 w-full flex gap-2 justify-center items-center">
+				<button
+					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md text-sm sm:text-lg px-2 py-1 sm:px-5 sm:py-2 hover:scale-110 transition-all"
+					onClick={onPrev}
+				>
+					Back
+				</button>
+				<button
+					className="font-heading text-white bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
+					onClick={handleSubmit}
+				>
+					Next
+				</button>
+			</div>
     </div>
   );
 };
