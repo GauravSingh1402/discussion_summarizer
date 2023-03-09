@@ -31,7 +31,7 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
       default:
         return '';
     }
-  };
+  }; 
   const handleFile = (e) => {
     const file = e.target.files[0];
     const videoUrl = URL.createObjectURL(file);
@@ -143,7 +143,7 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
               <br />
             </span>
             <span className={`font-medium text-gray-500`}>
-              Supports .mr, .flac, .wav, .ogg, .mp3, .mp4, .webm
+              Supports .mp4, .webm, .ogg
             </span>
           </span>
           <input
