@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "regenerator-runtime/runtime";
 import { useTheme } from "next-themes";
 import { createSpeechlySpeechRecognition } from "@speechly/speech-recognition-polyfill";
@@ -31,6 +31,13 @@ const Recorder = () => {
     setprompts("");
     SpeechRecognition.stopListening();
   };
+   const handleChange = (event) => {
+    transcript = event.target.value;
+    setText(event.target.value);
+  };
+  useEffect(() => {
+    setText(transcript);
+  },)
   return (
     <div className="flex flex-col items-center justify-center">
       <textarea
@@ -39,7 +46,8 @@ const Recorder = () => {
         placeholder="Add your content here"
         name="text"
         type="text"
-        value={transcript}
+        value={text}
+        onChange={handleChange}
       />
       <div className="my-3 flex w-full items-center justify-center">
         <button
