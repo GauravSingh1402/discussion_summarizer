@@ -16,21 +16,21 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 			</h1>
 			<textarea
 				rows={8}
-				className="bg-light-primary rounded-md p-5 w-[80%] flex-wrap text-black"
+				className="bg-light-primary rounded-md p-5 w-[90%] sm:w-[80%] flex-wrap text-black"
 				placeholder="Add your content here"
 				name="text"
 				type="text"
 				onChange={handleChange}
 			/>
-			<div className="flex w-[20%] justify-between">
+			<div className="w-full flex gap-2 justify-center items-center">
 				<button
-					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[45%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-5 py-2 hover:scale-110 transition-all"
+					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md text-sm sm:text-lg px-2 py-1 sm:px-5 sm:py-2 hover:scale-110 transition-all"
 					onClick={onPrev}
 				>
 					Back
 				</button>
 				<button
-					className="font-heading text-white w-[45%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-5 py-2 hover:scale-110 transition-all"
+					className="font-heading text-white bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
 					onClick={handleSubmit}
 				>
 					Next
