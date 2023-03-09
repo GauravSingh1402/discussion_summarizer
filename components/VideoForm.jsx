@@ -17,8 +17,25 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
     e.preventDefault();
     onSubmit(values);
   };
+  const [videoSrc, setVideoSrc] = useState(null);
+
+  const getMimeType = (fileName) => {
+    const extension = fileName.split('.').pop();
+    switch (extension) {
+      case 'mp4':
+        return 'video/mp4';
+      case 'webm':
+        return 'video/webm';
+      case 'ogg':
+        return 'video/ogg';
+      default:
+        return '';
+    }
+  };
   const handleFile = (e) => {
     const file = e.target.files[0];
+    const videoUrl = URL.createObjectURL(file);
+    setVideoSrc(videoUrl);
     const modifiedSize =
       `${(parseInt(file.size) * 0.0009765625 * 0.0009765625).toFixed(2)}` +
       "MB";
@@ -145,6 +162,12 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
             <div
               className={`bg-gray-500 w-full flex flex-col justify-center p-5 rounded-md`}
             >
+              {videoSrc && (
+        <video controls>
+          <source src={videoSrc} type={getMimeType(videoSrc)} />
+          Your browser does not support the video tag.
+        </video>
+      )}
               <div className='flex flex-row items-center justify-center'>
                 <div>
                  <svg className='text-content w-10 h-10 mr-1' viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><rect fill="none" height="256" width="256"/><polyline fill="none" points="152 32 152 88 208 88" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/><path d="M168,224h32a8,8,0,0,0,8-8V88L152,32H56a8,8,0,0,0-8,8v88" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/><polygon fill="none" points="48 204 48 172 72 172 96 152 96 224 72 204 48 204" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/><path d="M128,163a32,32,0,0,1,0,50" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/></svg>
