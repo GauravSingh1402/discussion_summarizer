@@ -7,6 +7,7 @@ import Router from "next/router";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 const LandingPage = () => {
+// made page responsive
 	const { theme, setTheme } = useTheme();
 	return (
 		<div className="w-full flex flex-col items-center justify-center">
