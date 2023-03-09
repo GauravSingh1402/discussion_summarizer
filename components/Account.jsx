@@ -3,7 +3,7 @@ import { useTheme } from "next-themes";
 import axios from "axios";
 const Account = () => {
   const { theme, setTheme } = useTheme();
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(1);
   const [user, setUser] = useState();
   const [userinfo, setUserinfo] = useState(" ");
   const link = "https://discussionsummarizerbackend-production.up.railway.app/";

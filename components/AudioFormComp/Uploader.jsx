@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTheme } from "next-themes";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
