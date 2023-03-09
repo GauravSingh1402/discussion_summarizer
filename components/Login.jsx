@@ -74,7 +74,7 @@ const Login =  () => {
     };
     const response = await axios
           .post(
-            `http://localhost:5000/forgot_password`,
+            `${linkk}forgot_password`,
             udata,
             {
               headers: {
