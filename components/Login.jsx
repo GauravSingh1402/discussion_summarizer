@@ -46,6 +46,7 @@ const Login =  () => {
                 title: 'Success',
                 text: 'Login Successfull',
               })
+              router.push('/')
             }
             else
             {
@@ -98,7 +99,7 @@ const Login =  () => {
               Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Invalid Credentials!',
+                text: 'Please Enter your Email',
               })
             }
           })

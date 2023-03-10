@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import Router from "next/router";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { useSession, signIn, signOut ,getSession} from "next-auth/react";
-import { useRouter } from "next/router";
 
 const Signup = () => {
 	const [flag,setFlag] = useState(0);
@@ -14,6 +13,7 @@ const Signup = () => {
 	const [password, setPassword] = useState("");
   	const [email, setEmail] = useState("");
   	const [name, setName] = useState("");
+	const router = useRouter();
 	const gsignup = async () => {
 		const session = await getSession();
 		if(session)
@@ -50,9 +50,9 @@ const Signup = () => {
 				  Swal.fire({
 					icon: 'warning',
 					title: 'Warning',
-					text: 'User already exists',
+					text: 'User already Exists',
 				  })
-				  Router.push("/login");
+				  router.push("/login");
 				}
 				else
 				{
@@ -109,7 +109,7 @@ const Signup = () => {
 					showConfirmButton: false,
 					timer: 1500,
 				});
-				Router.push("/login");
+				router.push("/login");
 			}
 		});
 	}
