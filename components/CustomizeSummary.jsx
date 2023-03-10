@@ -32,16 +32,16 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 	};
 	return (
 		<div className="flex flex-col items-center w-full px-5 py-8 justify-center gap-10">
-			<h1 className="font-heading font-semibold text-lg">
+			<h1 className="text-center font-heading font-semibold text-md sm:text-lg">
 				Customize Summary Requirements
 			</h1>
-			<div className="flex w-[80%] justify-between gap-10 items-center">
-				<h2 className="font-heading font-medium">
+			<div className="flex w-[80%] flex-col sm:flex-row justify-between gap-5 md:gap-10 items-center">
+				<h2 className="font-heading font-medium text-sm sm:text-md text-center">
 					Set number of sentences for the summary
 				</h2>
 				<input
-					className="bg-light-primary rounded-md p-5 flex-wrap text-black flex-grow"
-					placeholder="Add number of sentences"
+					className="bg-light-primary rounded-md p-5 w-full text-black"
+					placeholder="Number of sentences"
 					name="num_sent"
 					type="number"
 					value={values}
@@ -50,15 +50,15 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 					}}
 				/>
 			</div>
-			<div className="flex w-[25%] justify-between">
+			<div className="w-full flex gap-2 justify-center items-center">
 				<button
-					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[40%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-5 py-2 hover:scale-110 transition-all"
+					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md text-sm sm:text-lg px-2 py-1 sm:px-5 sm:py-2 hover:scale-110 transition-all"
 					onClick={onPrev}
 				>
 					Back
 				</button>
 				<button
-					className="font-heading text-white w-[50%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-5 py-2 hover:scale-110 transition-all"
+					className="font-heading text-white bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
 					onClick={handleSummarySubmit}
 				>
 					Next

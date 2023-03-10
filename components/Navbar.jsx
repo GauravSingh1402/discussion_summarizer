@@ -86,21 +86,21 @@ const Navbar = () => {
           {!toggleMenu && (
             <HiMenuAlt4
               fontSize={28}
-              className="text-white md:hidden cursor-pointer"
+              className="text-content md:hidden cursor-pointer"
               onClick={() => setToggleMenu(true)}
             />
           )}
           {toggleMenu && (
             <AiOutlineClose
               fontSize={28}
-              className="text-white md:hidden cursor-pointer"
+              className="text-content md:hidden cursor-pointer"
               onClick={() => setToggleMenu(false)}
             />
           )}
           {toggleMenu && (
             <ul
               className="z-10 fixed -top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hidden list-none
-            flex flex-col justify-start items-end rounded-md bg-[#27335966] backdrop-blur-sm shadow-[0_4px_30px_rgba(0, 0, 0, 0.2)] border-[1px] border-[#0000004d] rounded-[16px] border-solid text-white animate-slide-in"
+            flex flex-col justify-start items-end rounded-md bg-[#27335966] backdrop-blur-sm shadow-[0_4px_30px_rgba(0, 0, 0, 0.2)] border-[1px] border-[#0000004d] rounded-[16px] border-solid text-content animate-slide-in"
             >
               <li className="text-xl w-full my-2">
                 <AiOutlineClose onClick={() => setToggleMenu(false)} />

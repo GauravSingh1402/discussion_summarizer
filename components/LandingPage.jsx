@@ -7,10 +7,11 @@ import Router from "next/router";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 const LandingPage = () => {
+// made page responsive
 	const { theme, setTheme } = useTheme();
 	return (
 		<div className="w-full flex flex-col items-center justify-center">
-			<div className='sm:hidden w-full flex flex-col items-center justify-center gap-3 my-10 px-10'>
+			<div className='sm:hidden w-full flex flex-col items-center justify-center gap-3 my-10 px-5'>
 				<h3 className="text-2xl text-center font-extrabold font-heading text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
 					Effortlessly Summarize Any Media With AI
 				</h3>
@@ -30,10 +31,10 @@ const LandingPage = () => {
 					onClick={() => {
 						Router.push("/generateSummary");
 					}}
-					className="w-fit flex items-center gap-2 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-8 py-4 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
+					className="w-fit flex items-center gap-2 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 sm:px-8 sm:py-4 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
 				>
-					Generate Summary For Free
-					<ArrowRightCircleIcon className="w-6 h-6 stroke-2" />
+					Generate Summary <span className='hidden sm:block'>For Free</span>
+					<ArrowRightCircleIcon className="hidden sm:block w-6 h-6 stroke-2" />
 				</button>
 			</div>
 			<div className="hidden w-full sm:flex flex-col sm:flex-row  justify-evenly pt-20 pb-24">
@@ -151,7 +152,7 @@ const LandingPage = () => {
 						/>
 					</div>
 				</div>
-				<div className="w-full flex flex-col py-5 justify-between sm:w-[50%]">
+				<div className="w-full flex flex-col py-5 justify-between items-center sm:items-left gap-2 sm:w-[50%]">
 					<h3 className="text-center sm:text-left text-2xl sm:text-3xl font-semibold font-heading text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
 						Unleash The Power Of AI Summarization With SummaSense
 					</h3>
@@ -163,7 +164,7 @@ const LandingPage = () => {
 						onClick={() => {
 							Router.push("/generateSummary");
 						}}
-						className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-3 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
+						className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 sm:px-8 sm:py-4 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
 					>
 						Generate Summary For Free
 					</button>
