@@ -24,16 +24,14 @@ const Account = () => {
   const [previewsource, setPreviewSource] = useState();
 
   const logout = async () => {
-    const authOptions = { sessionTokenMaxAge: 0 };
     try {
-      const res = await axios(`http://localhost:5000/logout`, {
+      const res = await axios(`${link}logout`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         withCredentials: true,
-        authOptions,
       });
     } catch (err) {
       console.log(err);
