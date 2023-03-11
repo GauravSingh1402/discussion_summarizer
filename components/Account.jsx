@@ -15,21 +15,18 @@ const Account = () => {
   const [name, setName] = useState(" ");
   const [mail, setMail] = useState(" ");
   const [google, setGoogle] = useState(false);
-  const [photo, setPhoto] = useState(" ");
+  const [photo, setPhoto] = useState();
   const [password, setPassword] = useState(" ");
   const [npassword, setNPassword] = useState(" ");
   const [cpassword, setCPassword] = useState(" ");
   const [discussion, setDiscussion] = useState();
   const link = "https://discussionsummarizerbackend-production.up.railway.app/";
   const [previewsource, setPreviewSource] = useState();
-  const handlePhotoInputs = (e) => {
-    const file = e.target.files[0];
-    previewFile(file);
-  };
+
   const logout = async () => {
     const authOptions = { sessionTokenMaxAge: 0 };
     try {
-      const res = await axios(`${link}logout`, {
+      const res = await axios(`http://localhost:5000/logout`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -57,6 +54,10 @@ const Account = () => {
         timer: 1500,
       });
     }
+  };
+  const handlePhotoInputs = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
   };
 
   const profile = async () => {
@@ -264,9 +265,9 @@ const Account = () => {
                       <img
                         className="rounded-full w-32 h-32 object-cover"
                         src={
-                          previewsource
-                            ? `data:image/jpeg;base64, ${previewsource}`
-                            : "./avatar.png"
+                          photo
+                            ? `data:image/jpeg;base64, ${photo}`
+                            : "./avatar1.jpg"
                         }
                         alt="profilePic"
                       />
@@ -343,7 +344,7 @@ const Account = () => {
                           src={
                             previewsource
                               ? `data:image/jpeg;base64, ${previewsource}`
-                              : "./avatar.png"
+                              : "./avatar1.jpg"
                           }
                           alt="profilePic"
                         />

@@ -21,7 +21,7 @@ const Login =  () => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const gsignin = async () => {
     const session = await getSession();
-    if(session)
+    if(session )
     {
       const udata = {
         email: session.user.email,
@@ -47,14 +47,6 @@ const Login =  () => {
                 text: 'Login Successfull',
               })
               router.push('/')
-            }
-            else
-            {
-              Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Invalid Credentials!',
-              })
             }
           })
         

@@ -47,7 +47,7 @@ const Signup = () => {
 					text: 'SignUp Successfull',
 				  })
 				}
-				if (response.data.data=="User already exists")
+				if (response.data.data=="User already Exists")
 				{
 				  Swal.fire({
 					icon: 'warning',
@@ -55,14 +55,6 @@ const Signup = () => {
 					text: 'User already Exists',
 				  })
 				  router.push("/login");
-				}
-				else
-				{
-				  Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'Invalid Credentials!',
-				  })
 				}
 			  })
 			
