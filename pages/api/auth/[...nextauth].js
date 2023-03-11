@@ -21,7 +21,8 @@ export default NextAuth({
         // You can set any additional cookie options you need here
         sessionTokenPath: "/api/auth/session",
         sessionTokenSecure: true,
-        sessionTokenMaxAge: 60 * 60 * 24 * 30, // 30 days
+        sessionTokenMaxAge: 60 * 60 * 24, // 1 day in seconds
+
     },
             // const { email, provider } = user;
             // console.log(email,provider)

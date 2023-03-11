@@ -22,6 +22,7 @@ const Signup = () => {
 			email: session.user.email,
 			first_name: session.user.name.slice(0,session.user.name.indexOf(" ")),
 			last_name: session.user.name.slice(session.user.name.indexOf(" ")+1,session.user.name.length),
+			photo: session.user.image,
 		  };
 		  console.log(udata);
 		  const response = await axios
@@ -37,7 +38,8 @@ const Signup = () => {
 			  )
 			  .then((response) => {
 				console.log(response.data);
-				if (response.data=="Inserted")
+				console.log(response.data.data);
+				if (response.data.data=="Inserted")
 				{
 				  Swal.fire({
 					icon: 'success',
@@ -45,7 +47,7 @@ const Signup = () => {
 					text: 'SignUp Successfull',
 				  })
 				}
-				if (response.data=="User already exists")
+				if (response.data.data=="User already exists")
 				{
 				  Swal.fire({
 					icon: 'warning',
