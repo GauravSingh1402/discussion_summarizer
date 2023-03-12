@@ -25,7 +25,7 @@ const Account = () => {
 
   const logout = async () => {
     try {
-      const res = await axios(`${link}logout`, {
+      const response = await axios(`http://localhost:5000/logout`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -33,9 +33,28 @@ const Account = () => {
         },
         withCredentials: true,
       });
+      if(response=="logout successfull")
+      {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Logout Successfull",
+        });
+        router.push('/')
+      }
+      else
+      {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Logout Failed",
+        });
+
+      }
     } catch (err) {
       console.log(err);
     }
+
   };
   const previewFile = (file) => {
     const reader = new FileReader();
