@@ -7,70 +7,7 @@ import Recorder from "./AudioFormComp/Recorder";
 const AudioForm = ({ onSubmit, onPrev, data }) => {
   const { theme, setTheme } = useTheme();
   const [currentTab, setCurrentTab] = useState("Record");
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const uploadFile = async (url, file, onUploadProgress) => {
-console.log(file,url);
-  return axios.put(url, file, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    onUploadProgress,
-  });
-};
-
-const handleFileUpload = async (e) => {
-  const file = e.target.files[0];
-  console.log(file);
-  const fileType = file.name.split(".").pop().toLowerCase();
-
-  const s3Key = `${file.name.split(".").pop() + uuidv4()}`;
-  const body = {
-    fileName: s3Key,
-  };
-  let s3Url;
-  setText("Uploading");
-
-  try {
-    const response = await axios.post("http://localhost:2000/getS3Url", body, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log(response.data);
-    s3Url = response.data["url"];
-  } catch (error) {
-    console.log(error);
-  }
-
-  await uploadFile(s3Url, file, (progressEvent) => {
-    console.log("Upload progress: ", progressEvent.loaded / progressEvent.total);
-    setUploadProgress((progressEvent.loaded / progressEvent.total) * 100);
-    setText(`Uploading... ${(progressEvent.loaded / progressEvent.total) * 100}%`);
-  });
-
-  const fileUrl = s3Url.split("?")[0];
-
-  setText("Extracting Text");
-  const data = {
-    audioUrl: fileUrl,
-    mediaFormat: fileType,
-  };
-
-  try {
-    const response = await axios.post("http://localhost:2000/transcribe", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log(response.data);
-    setText(response.data["transcript"]);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+ 
   return (
      <div className="w-full flex flex-col ">
       <div
