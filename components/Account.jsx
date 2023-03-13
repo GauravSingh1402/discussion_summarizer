@@ -25,7 +25,7 @@ const Account = () => {
 
   const logout = async () => {
     try {
-      const response = await axios(`http://localhost:5000/logout`, {
+      const response = await axios(`${link}logout`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -33,6 +33,7 @@ const Account = () => {
         },
         withCredentials: true,
       });
+      console.log(response)
       if(response=="logout successfull")
       {
         Swal.fire({
