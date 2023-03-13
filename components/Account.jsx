@@ -34,7 +34,7 @@ const Account = () => {
         withCredentials: true,
       });
       console.log(response)
-      if(response=="logout successfull")
+      if(response.data=="logout successfull")
       {
         Swal.fire({
           icon: "success",
