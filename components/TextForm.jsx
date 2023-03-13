@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 const TextForm = ({ onSubmit, onPrev, data }) => {
 	const { theme, setTheme } = useTheme();
+  const [currentTab, setCurrentTab] = useState("Manual");
 	const [values, setValues] = useState(data);
 	const [uploadedfile, setUploadedFile] = useState();
   const [fileName, setFileName] = useState();
@@ -80,15 +81,35 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 	setProgressText("Extracting Text");
     setswitchDisplay("extract");
     const data = {
-      ocrUrl: s3key,
-      mediaFormat: fileType,
+      s3url: s3Key,
+      filetype: fileType,
     };
 	console.log(data);
+   try {
+      const response = await axios.post(
+        "http://localhost:2000/extract-text",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setswitchDisplay("result");
+      setText(response.data["text_extraxted"]);
+      setValues({ ...values, text: response.data["text_extraxted"] });
+      setProgressText("Not Uploaded");
+      setDisableBtn(!disableBtn);
+      setUploadProgress(0);
+    } catch (error) {}
     setProgressText("Extracting Text");
 }
 	return (
 		<div className="flex flex-col items-center w-full px-5 py-8 justify-center gap-5">
-			<h1 className="font-heading font-semibold text-lg">
+			{
+        switchDisplay === "upload" && (
+          <>
+          <h1 className="font-heading font-semibold text-lg">
 				Add Original Content
 			</h1>
 			<textarea
@@ -99,21 +120,14 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 				type="text"
 				onChange={handleChange}
 			/>
-			<div className="w-full flex gap-2 justify-center items-center">
-				<button
-					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md text-sm sm:text-lg px-2 py-1 sm:px-5 sm:py-2 hover:scale-110 transition-all"
-					onClick={onPrev}
-				>
-					Back
-				</button>
-				<button
-					className="font-heading text-white bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
-					onClick={handleSubmit}
-				>
-					Next
-				</button>
-			</div>
-			 <label
+      <div className='w-full flex flex-row items-center justify-center'>
+          <hr className="h-[1px] w-[47%] border-0 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"></hr>
+<h1 className="font-heading font-semibold text-lg mx-3">
+				OR
+			</h1>
+      <hr className="h-[1px] w-[47%] border-0 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"></hr>
+        </div>
+        <label
           className={`flex justify-center w-full h-[250px] sm:h-[300px] px-4 transition bg-${theme}-primary border-2 border-gray-500 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-300 focus:outline-none`}
         >
           <span className="flex flex-col items-center justify-center space-x-2">
@@ -149,9 +163,27 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
             }}
           />
         </label>
-		<button onClick={handleFileUpload}>Upload</button>
-		<div
-              className={`w-full flex flex-col justify-center px-1 py-5 sm:p-5 rounded-lg`}
+			<div className="w-full flex gap-2 justify-center items-center">
+				<button
+					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md text-sm sm:text-lg px-2 py-1 sm:px-5 sm:py-2 hover:scale-110 transition-all"
+					onClick={onPrev}
+				>
+					Back
+				</button>
+				<button
+					className="font-heading text-white bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
+					onClick={handleSubmit}
+				>
+					Next
+				</button>
+			</div>
+          </>
+        )
+      }
+      {switchDisplay === "preview" && (
+        <>
+        <div
+              className={`w-full flex bg-gray-500 flex-col justify-center px-1 py-5 sm:p-5 rounded-lg`}
             >
               <div className='mt-1 flex flex-row items-center justify-center px-3 sm:px-5'>
                 <div className='w-full flex flex-col justify-center'>
@@ -173,6 +205,27 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
                 </div>
               </div>
             </div>
+            <div className="flex w-full justify-between my-5">
+              <button
+                className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[45%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
+                onClick={() => {
+                  setswitchDisplay("upload");
+                }}
+              >
+                Back
+              </button>
+              <button
+                className="font-heading text-white w-[45%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
+                onClick={() => {
+                  handleFileUpload();
+                }}
+              >
+                Extract Text
+              </button>
+            </div>
+        </>
+      )}
+		
 		</div>
 	);
 };
