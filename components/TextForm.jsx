@@ -46,7 +46,6 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
   const handleFileUpload = async () => {
     const file = uploadedfile;
     const fileType = file.name.split(".").pop().toLowerCase();
-
     const s3Key = `${file.name.split(".").pop() + uuidv4()}`;
     const body = {
       fileName: s3Key,
@@ -55,7 +54,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:2000/getS3UrlOcr",
+        "https://summasense-services-production.up.railway.app/getS3UrlOcr",
         body,
         {
           headers: {
@@ -87,7 +86,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 	console.log(data);
    try {
       const response = await axios.post(
-        "http://localhost:2000/extract-text",
+        "https://summasense-services-production.up.railway.app/extract-text",
         data,
         {
           headers: {
@@ -95,6 +94,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
           },
         }
       );
+      console.log(response); 
       setswitchDisplay("result");
       setText(response.data["text_extraxted"]);
       setValues({ ...values, text: response.data["text_extraxted"] });
@@ -151,7 +151,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
               <br />
             </span>
             <span className={`text-xs sm:text-sm font-medium text-gray-500 text-center`}>
-              Supports .mp3, .ogg, .wav, .flac
+              Supports .pdf, .jpeg, .png
             </span>
           </span>
           <input
@@ -180,10 +180,11 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
           </>
         )
       }
-      {switchDisplay === "preview" && (
-        <>
-        <div
-              className={`w-full flex bg-gray-500 flex-col justify-center px-1 py-5 sm:p-5 rounded-lg`}
+      {switchDisplay != "upload" && switchDisplay != "result" ? (
+        <div className="flex flex-col">
+          {switchDisplay == "preview" ? (
+            <div
+              className={`w-full flex flex-col bg-gray-500 justify-center px-1 py-5 sm:p-5 rounded-lg`}
             >
               <div className='mt-1 flex flex-row items-center justify-center px-3 sm:px-5'>
                 <div className='w-full flex flex-col justify-center'>
@@ -205,6 +206,38 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
                 </div>
               </div>
             </div>
+          ) : (
+            <div className="my-2 w-full flex flex-col items-center justify-center">
+              <svg
+                className="animate-spin text-content w-20 h-20 feather feather-loader"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line x1="12" x2="12" y1="2" y2="6" />
+                <line x1="12" x2="12" y1="18" y2="22" />
+                <line x1="4.93" x2="7.76" y1="4.93" y2="7.76" />
+                <line x1="16.24" x2="19.07" y1="16.24" y2="19.07" />
+                <line x1="2" x2="6" y1="12" y2="12" />
+                <line x1="18" x2="22" y1="12" y2="12" />
+                <line x1="4.93" x2="7.76" y1="19.07" y2="16.24" />
+                <line x1="16.24" x2="19.07" y1="7.76" y2="4.93" />
+              </svg>
+              <p>{progressText}</p>
+              <p className="text-gray-300 text-xs italic">
+                This might take several minutes ...
+              </p>
+            </div>
+          )}
+          {disableBtn ? (
+            ""
+          ) : (
             <div className="flex w-full justify-between my-5">
               <button
                 className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[45%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
@@ -223,9 +256,43 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
                 Extract Text
               </button>
             </div>
-        </>
+          )}
+        </div>
+      ) : (
+        ""
       )}
-		
+		 {switchDisplay == "result" && (
+        <div className="w-full flex flex-col items-center justify-center">
+          <textarea
+            rows={8}
+            className="text-xs sm:text-md md:text-lg bg-light-primary rounded-md p-5 w-[90%] sm:w-[80%] flex-wrap text-black mt-4"
+            placeholder="Add your content here"
+            name="text"
+            type="text"
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+              setValues({ ...values, text: e.target.value });
+            }}
+          />
+          <div className="my-5 flex w-full flex gap-2 justify-center items-center">
+            <button
+              className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end w-[45%] text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
+              onClick={() => {
+                setswitchDisplay("upload");
+              }}
+            >
+              Back
+            </button>
+            <button
+              className="font-heading text-white w-[45%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-md px-2 py-1 sm:px-5 sm:py-2 text-sm sm:text-lg hover:scale-110 transition-all"
+              onClick={handleSubmit}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
 		</div>
 	);
 };
