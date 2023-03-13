@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import Router from "next/router";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { useSession, signIn, signOut ,getSession} from "next-auth/react";
-import { useRouter } from "next/router";
 
 const Signup = () => {
 	const [flag,setFlag] = useState(0);
@@ -14,6 +13,7 @@ const Signup = () => {
 	const [password, setPassword] = useState("");
   	const [email, setEmail] = useState("");
   	const [name, setName] = useState("");
+	const router = useRouter();
 	const gsignup = async () => {
 		const session = await getSession();
 		if(session)
@@ -22,6 +22,7 @@ const Signup = () => {
 			email: session.user.email,
 			first_name: session.user.name.slice(0,session.user.name.indexOf(" ")),
 			last_name: session.user.name.slice(session.user.name.indexOf(" ")+1,session.user.name.length),
+			photo: session.user.image,
 		  };
 		  console.log(udata);
 		  const response = await axios
@@ -37,7 +38,8 @@ const Signup = () => {
 			  )
 			  .then((response) => {
 				console.log(response.data);
-				if (response.data=="Inserted")
+				console.log(response.data.data);
+				if (response.data.data=="Inserted")
 				{
 				  Swal.fire({
 					icon: 'success',
@@ -45,22 +47,14 @@ const Signup = () => {
 					text: 'SignUp Successfull',
 				  })
 				}
-				if (response.data=="User already exists")
+				if (response.data.data=="User already Exists")
 				{
 				  Swal.fire({
 					icon: 'warning',
 					title: 'Warning',
-					text: 'User already exists',
+					text: 'User already Exists',
 				  })
-				  Router.push("/login");
-				}
-				else
-				{
-				  Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'Invalid Credentials!',
-				  })
+				  router.push("/login");
 				}
 			  })
 			
@@ -109,7 +103,7 @@ const Signup = () => {
 					showConfirmButton: false,
 					timer: 1500,
 				});
-				Router.push("/login");
+				router.push("/login");
 			}
 		});
 	}

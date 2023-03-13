@@ -3,6 +3,8 @@ import { useTheme } from "next-themes";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import Image from "next/image";
 
 const Account = () => {
   const { theme, setTheme } = useTheme();
@@ -12,11 +14,70 @@ const Account = () => {
   const [userinfo, setUserinfo] = useState(" ");
   const [name, setName] = useState(" ");
   const [mail, setMail] = useState(" ");
+  const [google, setGoogle] = useState(false);
+  const [photo, setPhoto] = useState();
   const [password, setPassword] = useState(" ");
   const [npassword, setNPassword] = useState(" ");
   const [cpassword, setCPassword] = useState(" ");
+  const [discussion, setDiscussion] = useState();
   const link = "https://discussionsummarizerbackend-production.up.railway.app/";
-  const [discussion, setDiscussion] = useState(" ");
+  const [previewsource, setPreviewSource] = useState();
+
+  const logout = async () => {
+    try {
+      const response = await axios(`${link}logout`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      console.log(response)
+      if(response.data=="logout successfull")
+      {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Logout Successfull",
+        });
+        router.push('/')
+      }
+      else
+      {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Logout Failed",
+        });
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+  };
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    if (file.type == "image/jpeg") {
+      reader.onloadend = () => {
+        setPreviewSource(reader.result.slice(reader.result.indexOf(",") + 1));
+      };
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Please Enter File Formats Of Jpg Jpeg",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
+  const handlePhotoInputs = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
+
   const profile = async () => {
     try {
       const res = await axios(`${link}auth`, {
@@ -36,6 +97,8 @@ const Account = () => {
           setUser(email);
           setUserinfo(res.data.other_info);
           setDiscussion(res.data.other_info.summary);
+          setGoogle(res.data.other_info.isGoogle);
+          setPhoto(res.data.other_info.photo);
         } else {
           setUser("Unauthorized");
           router.push("/login");
@@ -67,6 +130,7 @@ const Account = () => {
           password: password,
           npassword: npassword,
           cpassword: cpassword,
+          image: previewsource,
         };
         console.log(udata);
         if (
@@ -74,7 +138,8 @@ const Account = () => {
           password == " " &&
           npassword == " " &&
           cpassword == " " &&
-          name == " "
+          name == " " &&
+          previewsource == " "
         ) {
           Swal.fire({
             icon: "error",
@@ -82,79 +147,73 @@ const Account = () => {
             text: " Enter atleast one field to update!",
           });
         } else {
-          if ((password != " " && cpassword!=" " && npassword != " ") ||(name != " " || mail != " ")) {
-              if ((cpassword == npassword && cpassword != " " && password!=npassword) ||(name != " " || mail != " "))  {
-                const resp = await axios
-                  .post(`${link}eprofile`, udata, {
-                    headers: {
-                      "Content-type": "application/json",
-                    },
-                  })
-                  .then((resp) => {
-                    console.log(resp.data.data);
-                    if (resp.data.data == "Updated") {
-                      Swal.fire({
-                        icon: "success",
-                        title: "Success",
-                        text: "Profile updated  Successfully",
-                      });
-                      router.push('/login');
-                    }
-                    else if(resp.data.data == "Google"){
-                      Swal.fire({
-                        icon: " Warning",
-                        title: "Oops...",
-                        text: "Password cannot be changed for Google accounts",
-                      });
-                    } 
-                    else {
-                      Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Profile could not  be updated!",
-                      });
-                    }
-                  });
+          if (
+            (password != " " && cpassword != " " && npassword != " ") ||
+            name != " " ||
+            mail != " " ||
+            previewsource != " "
+          ) {
+            if (
+              (cpassword == npassword &&
+                cpassword != " " &&
+                password != npassword) ||
+              name != " " ||
+              mail != " " ||
+              previewsource != " "
+            ) {
+              const resp = await axios
+                .post(`${link}eprofile`, udata, {
+                  headers: {
+                    "Content-type": "application/json",
+                  },
+                })
+                .then((resp) => {
+                  console.log(resp.data.data);
+                  if (resp.data.data == "Updated") {
+                    Swal.fire({
+                      icon: "success",
+                      title: "Success",
+                      text: "Profile updated  Successfully",
+                    });
+                    router.push("/login");
+                  } else if (resp.data.data == "Google") {
+                    Swal.fire({
+                      icon: " Warning",
+                      title: "Oops...",
+                      text: "Password cannot be changed for Google accounts",
+                    });
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Profile could not  be updated!",
+                    });
+                  }
+                });
+            } else {
+              if (password == npassword) {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Oops...",
+                  text: " New Password and Old Password should not be same!",
+                });
+              } else {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Oops...",
+                  text: " Confirm Password and New Password should be same!",
+                });
               }
-           else {
-            if(password==npassword)
-            {
-              Swal.fire({
-                icon: "warning",
-                title: "Oops...",
-                text: " New Password and Old Password should not be same!",
-              });
-
             }
-            else
-            {
-              Swal.fire({
-                icon: "warning",
-                title: "Oops...",
-                text: " Confirm Password and New Password should be same!",
-              });
-            }
-         
-           }
-          
-          
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: " Enter New Password or Confirm Password!",
+            });
           }
-        else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: " Enter New Password or Confirm Password!",
-          });
         }
-      
-        
-        }
-        
-        
-       
-        
-      
-      } 
+      }
     }
   };
   useEffect(() => {
@@ -162,7 +221,7 @@ const Account = () => {
   }, []);
   return (
     <div className="flex flex-col items-center w-full px-5 py-8 justify-center gap-10">
-      <h1 className="text-3xl text-transparent bg-clip-text font-heading font-bold bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
+      <h1 className="text-white text-3xl text-transparent bg-clip-text font-heading font-bold bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
         Welcome {userinfo.first_name}
       </h1>
       <div className="w-[70%] relative my-10">
@@ -207,16 +266,57 @@ const Account = () => {
                   : "mt-5 w-full px-8 py-3 text-black cursor-pointer font-bold hover:bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"
               }
             >
-              Edit PersonalDetails
+              Edit Personal Details
             </button>
           </div>
           <div className="w-[70%] min-h-[70%] flex flex-col">
             {selected == 1 && (
               <div className="w-full flex flex-col items-center justify-center px-8 py-3">
-                <h3 className="text-2xl font-bold">
-                  {userinfo.first_name} {userinfo.last_name}
-                </h3>
-                <p className="text-sm ">{user}</p>
+                <div className="flex items-center justify-center space-x-4 py-4 lg:py-8">
+                  {/* <h2 className="text-white font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
+                    {google === false
+                      ? "Change Profile Pic"
+                      : "Profile Picture"}
+                  </h2> */}
+                  {google === false ? (
+                    <div className="w-32 h-32 relative rounded-full text-black ml-2">
+                      <img
+                        className="rounded-full w-32 h-32 object-cover"
+                        src={
+                          photo
+                            ? `data:image/jpeg;base64, ${photo}`
+                            : "./avatar1.jpg"
+                        }
+                        alt="profilePic"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-32 h-32 relative rounded-full text-black ml-2">
+                      <img
+                        className="rounded-full w-32 h-32 object-cover"
+                        src={photo}
+                        alt="profilePic"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {user ? (
+                  <>
+                    <h3 className="text-2xl my-5 font-bold">
+                      Name: {userinfo.first_name} {userinfo.last_name}
+                    </h3>
+                    <h3 className="text-2xl my-5 font-bold">Email : {user}</h3>
+                    <h3 className="text-2xl my-5 font-bold">
+                      Number of Summaries : {discussion.length}
+                    </h3>
+                    <div className=" mt-5 cursor-pointer mx-4 py-2 px-7 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
+                      <button onClick={logout}>Log Out</button>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             )}
             {selected == 2 && (
@@ -234,52 +334,112 @@ const Account = () => {
                       </div>
                     ))}
                   </>
-                ) : (
+                ) : discussion == " " ? (
                   <></>
+                ) : (
+                  <>
+                    <h1 className="mt-3 text-3xl text-white text-transparent bg-clip-text font-heading font-bold bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
+                      No Summaries generated yet!
+                    </h1>
+                    <div className=" mt-5 cursor-pointer mx-4 py-2 px-7 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
+                      <Link href="/generateSummary">Generate Summary</Link>
+                    </div>
+                  </>
                 )}
               </div>
             )}
             {selected == 3 && (
               <div className="w-full flex flex-col items-center justify-center px-8 py-3">
-                <div className="my-5 flex flex-row">
-                  <h2 className="font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
-                    Change Name{" "}
-                  </h2>
-                  <input
-                    onChange={(e) => setName(e.target.value)}
-                    className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
-                    placeholder="Enter new name for your account"
-                  ></input>
+                <div className="my-5 flex items-center flex-row">
+                  {google == false ? (
+                    <>
+                      <h2 className="text-white font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end pr-4">
+                        Change Profile Pic
+                      </h2>
+                      <div className="w-32 h-32 relative rounded-full text-black ml-2">
+                        <img
+                          className="rounded-full w-32 h-32 object-cover"
+                          src={
+                            previewsource
+                              ? `data:image/jpeg;base64, ${previewsource}`
+                              : "./avatar1.jpg"
+                          }
+                          alt="profilePic"
+                        />
+                        <div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5 absolute top-[10%] left-1 cursor-pointer"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M1 8a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 018.07 3h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0016.07 6H17a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8zm13.5 3a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10 14a3 3 0 100-6 3 3 0 000 6z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          <input
+                            className="absolute cursor-pointer top-0 scale-110 opacity-0"
+                            type="file"
+                            onChange={handlePhotoInputs}
+                            accept="image/*"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                <div className=" my-5 flex flex-row">
-                  <h1 className="font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
-                    Change Email{" "}
-                  </h1>
-                  <input
-                    onChange={(e) => setMail(e.target.value)}
-                    className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
-                    placeholder="Enter New Email"
-                  ></input>
+
+                <div className=" my-5 flex flex-col">
+                  <div className="my-5 flex items-center flex-row">
+                    <h2 className="text-white font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
+                      Change Name{" "}
+                    </h2>
+                    <input
+                      onChange={(e) => setName(e.target.value)}
+                      className="flex-grow rounded-md p-4 ml-2  outline-none bg-gray-200 text-black"
+                      placeholder="Enter new name for your account"
+                    ></input>
+                  </div>
+                  <div className="flex items-center flex-row my-5">
+                    <h1 className=" text-white font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
+                      Change Email
+                    </h1>
+                    <input
+                      onChange={(e) => setMail(e.target.value)}
+                      className="flex-grow rounded-md p-4 ml-2 outline-none bg-gray-200 text-black"
+                      placeholder="Enter New Email"
+                    ></input>
+                  </div>
                 </div>
                 <div className="my-5">
-                  <h1 className="font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end ">
-                    Change Password{" "}
-                  </h1>
-                  <input
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="rounded-md m-5 p-4 w-full outline-none bg-gray-200 text-black"
-                    placeholder="Enter old password"
-                  ></input>
-                  <input
-                    onChange={(e) => setNPassword(e.target.value)}
-                    className="rounded-md m-5 p-4 w-full outline-none bg-gray-200 text-black"
-                    placeholder="Enter New Password"
-                  ></input>
-                  <input
-                    onChange={(e) => setCPassword(e.target.value)}
-                    className="rounded-md m-5 p-4 w-full outline-none bg-gray-200 text-black"
-                    placeholder="Confirm Password"
-                  ></input>
+                  {google == false ? (
+                    <>
+                      <h1 className=" text-white font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end ">
+                        Change Password
+                      </h1>
+                      <input
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="rounded-md m-5 p-4 w-full outline-none bg-gray-200 text-black"
+                        placeholder="Enter old password"
+                      ></input>
+                      <input
+                        onChange={(e) => setNPassword(e.target.value)}
+                        className="rounded-md m-5 p-4 w-full outline-none bg-gray-200 text-black"
+                        placeholder="Enter New Password"
+                      ></input>
+                      <input
+                        onChange={(e) => setCPassword(e.target.value)}
+                        className="rounded-md m-5 p-4 w-full outline-none bg-gray-200 text-black"
+                        placeholder="Confirm Password"
+                      ></input>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </div>
                 <button
                   onClick={(e) => {
