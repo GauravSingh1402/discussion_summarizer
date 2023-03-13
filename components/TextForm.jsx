@@ -1,7 +1,19 @@
 import React, { useState } from "react";
-
+import { useTheme } from "next-themes";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 const TextForm = ({ onSubmit, onPrev, data }) => {
+	const { theme, setTheme } = useTheme();
 	const [values, setValues] = useState(data);
+	const [uploadedfile, setUploadedFile] = useState();
+  const [fileName, setFileName] = useState();
+  const [fileInMb, setFileInMb] = useState();
+  const [switchDisplay, setswitchDisplay] = useState("upload");
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [progressText, setProgressText] = useState("Not Uploaded");
+  const [text, setText] = useState("");
+  const [disableBtn, setDisableBtn] = useState(false);
+   const [ocrSrc, setOcrSrc] = useState(null);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		onSubmit(values);
@@ -9,6 +21,71 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 	const handleChange = (e) => {
 		setValues({ ...values, [e.target.name]: e.target.value });
 	};
+	const handleFile = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const audioUrl = URL.createObjectURL(file);
+    setOcrSrc(audioUrl);
+    const modifiedSize =
+      `${(parseInt(file.size) * 0.0009765625 * 0.0009765625).toFixed(2)}` +
+      "MB";
+    setUploadedFile(file);
+    setFileName(file.name);
+    setFileInMb(modifiedSize);
+    setswitchDisplay("preview");
+  };
+  const uploadFile = async (url, file, onUploadProgress) => {
+    return axios.put(url, file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress,
+    });
+  };
+  const handleFileUpload = async () => {
+    const file = uploadedfile;
+    const fileType = file.name.split(".").pop().toLowerCase();
+
+    const s3Key = `${file.name.split(".").pop() + uuidv4()}`;
+    const body = {
+      fileName: s3Key,
+    };
+    let s3Url;
+
+    try {
+      const response = await axios.post(
+        "http://localhost:2000/getS3UrlOcr",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      s3Url = response.data["url"];
+    } catch (error) {}
+	console.log(s3Url);
+    await uploadFile(s3Url, file, (progressEvent) => {
+      setDisableBtn(!disableBtn);
+      setUploadProgress((progressEvent.loaded / progressEvent.total) * 100);
+      setProgressText(
+        `Uploading... ${(
+          (progressEvent.loaded / progressEvent.total) *
+          100
+        ).toFixed(2)}%`
+      );
+    });
+
+    const fileUrl = s3Url.split("?")[0];
+	setProgressText("Extracting Text");
+    setswitchDisplay("extract");
+    const data = {
+      ocrUrl: s3key,
+      mediaFormat: fileType,
+    };
+	console.log(data);
+    setProgressText("Extracting Text");
+}
 	return (
 		<div className="flex flex-col items-center w-full px-5 py-8 justify-center gap-5">
 			<h1 className="font-heading font-semibold text-lg">
@@ -36,6 +113,66 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 					Next
 				</button>
 			</div>
+			 <label
+          className={`flex justify-center w-full h-[250px] sm:h-[300px] px-4 transition bg-${theme}-primary border-2 border-gray-500 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-300 focus:outline-none`}
+        >
+          <span className="flex flex-col items-center justify-center space-x-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-10 sm:w-16 h-10 sm:h-16 text-content"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+            <span className={`text-sm sm:text-md font-medium text-content text-center`}>
+              Drop files to Attach, <br /> or
+              <span className="text-blue-600 underline ml-2">browse</span>
+              <br />
+            </span>
+            <span className={`text-xs sm:text-sm font-medium text-gray-500 text-center`}>
+              Supports .mp3, .ogg, .wav, .flac
+            </span>
+          </span>
+          <input
+            type="file"
+            name="file_upload"
+            className="hidden"
+            onChange={(e) => {
+              handleFile(e);
+            }}
+          />
+        </label>
+		<button onClick={handleFileUpload}>Upload</button>
+		<div
+              className={`w-full flex flex-col justify-center px-1 py-5 sm:p-5 rounded-lg`}
+            >
+              <div className='mt-1 flex flex-row items-center justify-center px-3 sm:px-5'>
+                <div className='w-full flex flex-col justify-center'>
+                  <div className="flex flex-row items-center justify-between">
+                <p className="text-content truncate w-[60%] text-sm sm:text-md">{fileName}</p>
+                <p className="italic text-content text-xs sm:text-sm text-right">{progressText}</p>
+              </div>
+              {uploadProgress > 0 && (
+                <div className="my-2 w-full h-2 bg-gray-300 rounded-full">
+                  <div
+                    className="h-full bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end rounded-full"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+              )}
+              <div>
+                <p className="text-content text-xs"> {fileInMb}</p>
+              </div>
+                </div>
+              </div>
+            </div>
 		</div>
 	);
 };
