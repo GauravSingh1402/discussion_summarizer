@@ -79,12 +79,6 @@ const SummaryOutput = () => {
               <button className=" mb-5 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
                 Copy To ClipBoard
               </button>
-              <button
-			    onClick={() => profile(title,"")}
-                className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
-              >
-                Save To Profile
-              </button>
             </div>
           </div>
           <h2 className="font-heading font-medium text-left my-3">
@@ -99,7 +93,7 @@ const SummaryOutput = () => {
                 Copy To ClipBoard
               </button>
               <button
-                onClick={() => profile(" ",lsa)}
+                onClick={() => profile(title,lsa)}
                 className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
               >
                 Save To Profile
@@ -121,7 +115,7 @@ const SummaryOutput = () => {
                 Copy To ClipBoard
               </button>
               <button
-			    onClick={() => profile(" ",kl)}
+			    onClick={() => profile(title,kl)}
                 className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
               >
                 Save To Profile

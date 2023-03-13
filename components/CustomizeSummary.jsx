@@ -10,7 +10,7 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 		};
 		console.log(body);
 		const response = await axios
-			.post("https://discussionsummarizerbackend-production.up.railway.app/summarize", body, {
+			.post("http://localhost:5000/summarize", body, {
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -24,7 +24,7 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 						kl: response.data["summary"]["kl"],
 						lsa: response.data["summary"]["lsa"],
 						title:response.data["summary"]["title"],
-						text:data["text"]
+						text:data["text"],
 					},
 				});
 			})

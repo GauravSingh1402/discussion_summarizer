@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { GrammarlyEditorPlugin } from '@grammarly/editor-sdk-react'
 
 const TextForm = ({ onSubmit, onPrev, data }) => {
 	const [values, setValues] = useState(data);
@@ -14,6 +15,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 			<h1 className="font-heading font-semibold text-lg">
 				Add Original Content
 			</h1>
+			<GrammarlyEditorPlugin className="bg-light-primary rounded-md p-5 w-[90%] sm:w-[80%] flex-wrap text-black" clientId="client_Sqej2s7AQxvyGYjq1nqKeW">
 			<textarea
 				rows={8}
 				className="bg-light-primary rounded-md p-5 w-[90%] sm:w-[80%] flex-wrap text-black"
@@ -22,6 +24,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 				type="text"
 				onChange={handleChange}
 			/>
+			</GrammarlyEditorPlugin>
 			<div className="w-full flex gap-2 justify-center items-center">
 				<button
 					className="font-heading border-x-custom-gradient-start border-2 border-y-custom-gradient-end text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end bg-white rounded-md text-sm sm:text-lg px-2 py-1 sm:px-5 sm:py-2 hover:scale-110 transition-all"
