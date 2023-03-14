@@ -3,6 +3,7 @@ import axios from "axios";
 import Router from "next/router";
 const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 	const [values, setValues] = useState("");
+	const link="https://discussionsummarizerbackend-production.up.railway.app/"
 	const handleSummarySubmit = async () => {
 		const body = {
 			text: data["text"],
