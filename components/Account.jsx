@@ -89,6 +89,7 @@ const Account = () => {
         responseType: 'text', // Set the response type to 'text'
       }
     );
+    console.log(response)
     const fileContentBase64 = response.data;
     const fileContent = atob(fileContentBase64); // Decode the base64-encoded string
     const blob = new Blob([fileContent], { type: 'text/plain' }); // Create a blob object from the decoded file content
