@@ -100,10 +100,10 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
       audioUrl: fileUrl,
       mediaFormat: fileType,
     };
-
+    console.log(data);
     try {
       const response = await axios.post(
-        "https://summasense-services-production.up.railway.app/transcribe",
+        "http://localhost:2000/transcribe",
         data,
         {
           headers: {
