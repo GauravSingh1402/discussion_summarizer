@@ -471,6 +471,18 @@
     teeny-request "^8.0.0"
     uuid "^8.0.0"
 
+"@grammarly/editor-sdk-react@^2.3.11":
+  version "2.3.11"
+  resolved "https://registry.yarnpkg.com/@grammarly/editor-sdk-react/-/editor-sdk-react-2.3.11.tgz#dc13d274f644254d31ddb7c1c7e68bda1aa458ff"
+  integrity sha512-f+IcQywwwUulBaFo3/WmjvfULXwPZrE9qsb4iDhlTLvnz7XLo8pCL9wfv/3EJSCLGxfl18OSlEA9WU8Gy2vs6w==
+  dependencies:
+    "@grammarly/editor-sdk" "2.3.11"
+
+"@grammarly/editor-sdk@2.3.11":
+  version "2.3.11"
+  resolved "https://registry.yarnpkg.com/@grammarly/editor-sdk/-/editor-sdk-2.3.11.tgz#2135a2e72772446b47ef7e19132a67c7527f8c7f"
+  integrity sha512-7JiCOvid3fhvZc55+0RmYo5J8cZc+g23sItM3eRy7dbHelzQmBNct+1Kfb2E4wslC1RKz0wudvk84pV3+MJ6eQ==
+
 "@grpc/grpc-js@~1.7.0":
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.7.3.tgz#f2ea79f65e31622d7f86d4b4c9ae38f13ccab99a"

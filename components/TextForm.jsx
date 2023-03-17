@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { GrammarlyEditorPlugin } from '@grammarly/editor-sdk-react'
+
 import { useTheme } from "next-themes";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -112,6 +114,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
           <h1 className="font-heading font-semibold text-lg">
 				Add Original Content
 			</h1>
+			<GrammarlyEditorPlugin className="bg-light-primary rounded-md p-5 w-[90%] sm:w-[80%] flex-wrap text-black" clientId="client_Sqej2s7AQxvyGYjq1nqKeW">
 			<textarea
 				rows={8}
 				className="bg-light-primary rounded-md p-5 w-[90%] sm:w-[80%] flex-wrap text-black"
@@ -120,6 +123,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 				type="text"
 				onChange={handleChange}
 			/>
+			</GrammarlyEditorPlugin>
       <div className='w-full flex flex-row items-center justify-center'>
           <hr className="h-[1px] w-[47%] border-0 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"></hr>
 <h1 className="font-heading font-semibold text-lg mx-3">

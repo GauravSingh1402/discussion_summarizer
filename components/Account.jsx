@@ -73,6 +73,34 @@ const Account = () => {
       });
     }
   };
+
+  const summary_download = async (text) =>
+  {
+    const udata={
+      summary:text
+    }
+    const response = await axios.post(
+      `${link}download_summary`,
+      udata,
+      {
+        headers: {
+          "Content-type": "application/json",
+        },
+        responseType: 'text', // Set the response type to 'text'
+      }
+    );
+    console.log(response)
+    const fileContentBase64 = response.data;
+    const fileContent = atob(fileContentBase64); // Decode the base64-encoded string
+    const blob = new Blob([fileContent], { type: 'text/plain' }); // Create a blob object from the decoded file content
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'summary.txt';
+    link.click();
+  }
+
+
   const handlePhotoInputs = (e) => {
     const file = e.target.files[0];
     previewFile(file);
@@ -321,15 +349,20 @@ const Account = () => {
             )}
             {selected == 2 && (
               <div className="w-full flex flex-col items-center justify-center px-8 py-3">
-                {discussion.length >= 1 ? (
+                {discussion.length >= 1 && user? (
                   <>
                     {discussion.map((item) => (
                       <div className="w-full flex flex-col my-5 items-center justify-center gap-3">
                         <div className="text-justify w-[70%] md:w-[75%] bg-white p-7 text-black rounded-md font-small min-h-[100px] max-h-[100px] h-[100px] overflow-y-auto">
+                          {item.title}
+                        </div>
+                        <div className="text-justify w-[70%] md:w-[75%] bg-white p-7 text-black rounded-md font-small min-h-[100px] max-h-[100px] h-[100px] overflow-y-auto">
                           {item.summary}
                         </div>
-                        <button className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
-                          Read Full
+                        <button onClick={()=>
+                          {
+                            summary_download(item.summary)}} className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
+                          Download Summary
                         </button>
                       </div>
                     ))}
