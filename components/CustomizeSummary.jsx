@@ -3,7 +3,7 @@ import axios from "axios";
 import Router from "next/router";
 const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 	const [values, setValues] = useState("");
-	const link="https://discussionsummarizerbackend-production.up.railway.app/"
+	const link="http://localhost:5000/"
 	const handleSummarySubmit = async () => {
 		const body = {
 			text: data["text"],
@@ -19,15 +19,32 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 			.then((response) => {
 				console.log(response.data);
 				console.log(JSON.stringify(response.data));
-				Router.push({
-					pathname: "/output",
-					query: {
-						kl: response.data["summary"]["kl"],
-						lsa: response.data["summary"]["lsa"],
-						title:response.data["summary"]["title"],
-						text:data["text"],
-					},
-				});
+				if (response.data["summary"]["convo_bart"]!= undefined && response.data["summary"]["convo_bart"]!=null)
+				{
+				
+					Router.push({
+						pathname: "/output",
+						query: {
+							title:response.data["summary"]["title"],
+							text:data["text"],
+							bart:response.data["summary"]["bart"],
+							convo_bart:response.data["summary"]["convo_bart"],
+						},
+					});
+				}
+				else
+				{
+					Router.push({
+						pathname: "/output",
+						query: {
+							kl: response.data["summary"]["kl"],
+							lsa: response.data["summary"]["lsa"],
+							title:response.data["summary"]["title"],
+							text:data["text"],
+							bart:response.data["summary"]["bart"],
+						},
+					});
+				}
 			})
 			.catch((err) => console.log(err));
 	};
