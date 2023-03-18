@@ -3,8 +3,11 @@ import axios from "axios";
 import Router from "next/router";
 const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 	const [values, setValues] = useState("");
+	const [loader, setLoader] = useState(false);
 	const link="http://localhost:5000/"
 	const handleSummarySubmit = async () => {
+		setLoader(true);
+		console.log(data);
 		const body = {
 			text: data["text"],
 			num_sent: parseInt(values),
@@ -50,6 +53,9 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 	};
 	return (
 		<div className="flex flex-col items-center w-full px-5 py-8 justify-center gap-10">
+			<>
+			<></>
+			<>
 			<h1 className="text-center font-heading font-semibold text-md sm:text-lg">
 				Customize Summary Requirements
 			</h1>
@@ -82,6 +88,8 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 					Next
 				</button>
 			</div>
+			</>
+			</>
 		</div>
 	);
 };

@@ -19,6 +19,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
    const [ocrSrc, setOcrSrc] = useState(null);
 	const handleSubmit = (e) => {
 		e.preventDefault();
+    console.log(values);
 		onSubmit(values);
 	};
 	const handleChange = (e) => {
