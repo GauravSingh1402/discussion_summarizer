@@ -18,7 +18,7 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [user, setUser] = useState();
   const [toggleMenu, setToggleMenu] = React.useState(false);
-  const link = "https://discussionsummarizerbackend-production.up.railway.app/";
+  const link = "http://localhost:5000/";
 
   const profile = async () => {
     try {

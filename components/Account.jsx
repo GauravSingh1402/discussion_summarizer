@@ -20,7 +20,7 @@ const Account = () => {
   const [npassword, setNPassword] = useState(" ");
   const [cpassword, setCPassword] = useState(" ");
   const [discussion, setDiscussion] = useState();
-  const link = "https://discussionsummarizerbackend-production.up.railway.app/";
+  const link = "http://localhost:5000/";
   const [previewsource, setPreviewSource] = useState();
 
   const logout = async () => {
@@ -79,25 +79,23 @@ const Account = () => {
     const udata={
       summary:text
     }
-    const response = await axios.post(
-      `${link}download_summary`,
-      udata,
-      {
-        headers: {
-          "Content-type": "application/json",
-        },
-        responseType: 'text', // Set the response type to 'text'
-      }
-    );
+    const response = await axios
+    .post(`${link}download_summary`, udata, {
+      headers: {
+        "Content-type": "application/json",
+      },
+      responseType: 'text',
+    })
+  
     console.log(response)
     const fileContentBase64 = response.data;
     const fileContent = atob(fileContentBase64); // Decode the base64-encoded string
     const blob = new Blob([fileContent], { type: 'text/plain' }); // Create a blob object from the decoded file content
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'summary.txt';
-    link.click();
+    const linkk = document.createElement('a');
+    linkk.href = url;
+    linkk.download = 'summary.txt';
+    linkk.click();
   }
 
 
