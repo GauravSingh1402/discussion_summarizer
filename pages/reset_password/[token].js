@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 const Reset = () => {
   const router = useRouter();
   const linkk =
-    "https://discussionsummarizerbackend-production.up.railway.app/";
+    "http://localhost:5000/";
   const [password, setPassword] = useState(" ");
   const [cpassword, setCPassword] = useState(" ");
   const token = router.query.token;

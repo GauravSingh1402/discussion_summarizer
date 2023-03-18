@@ -7,8 +7,7 @@ const SummaryOutput = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { kl, lsa, title ,convo_bart,text,bart} = router.query;
-  console.log(bart)
-  const link = "https://discussionsummarizerbackend-production.up.railway.app/";
+  const link = "http://localhost:5000/";
   const profile = async (title, summary) => {
     const res = await axios(`${link}auth`, {
       method: "GET",
@@ -96,7 +95,7 @@ const SummaryOutput = () => {
                 Copy To ClipBoard
               </button>
               <button
-                onClick={() => profile(title,bart)}
+                onClick={() => profile(title,convo_bart)}
                 className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
               >
                 Save To Profile
@@ -111,7 +110,7 @@ const SummaryOutput = () => {
           </h2>
           <div className="flex justify-between">
             <div className="text-justify  w-[70%] md:w-[75%] bg-white p-7 text-black rounded-md font-small min-h-[200px] max-h-[200px] h-[200px] overflow-y-auto">
-              {convo_bart}
+              {bart}
             </div>
             <div className="flex flex-col">
               <button className=" mb-5 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg">

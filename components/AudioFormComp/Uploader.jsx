@@ -70,7 +70,7 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "https://summasense-services-production.up.railway.app/getS3Url",
+        "http://localhost:5000/getS3Url",
         body,
         {
           headers: {
@@ -103,7 +103,7 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "https://summasense-services-production.up.railway.app/transcribe",
+        "http://localhost:5000/transcribe",
         data,
         {
           headers: {

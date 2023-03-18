@@ -56,7 +56,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "https://summasense-services-production.up.railway.app/getS3UrlOcr",
+        "http://localhost:5000/getS3UrlOcr",
         body,
         {
           headers: {
@@ -88,7 +88,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 	console.log(data);
    try {
       const response = await axios.post(
-        "https://summasense-services-production.up.railway.app/extract-text",
+        "http://localhost:5000/extract-text",
         data,
         {
           headers: {

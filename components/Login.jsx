@@ -12,7 +12,7 @@ const Login =  () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const linkk =
-    "https://discussionsummarizerbackend-production.up.railway.app/";
+    "http://localhost:5000/";
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

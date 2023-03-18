@@ -27,7 +27,7 @@ const Signup = () => {
 		  console.log(udata);
 		  const response = await axios
 			  .post(
-				`https://discussionsummarizerbackend-production.up.railway.app/gsignup`,
+				`http://localhost:5000/gsignup`,
 				udata,
 				{
 				  headers: {
@@ -78,7 +78,7 @@ const Signup = () => {
 		console.log(fname,lname);
 		const data = { email:email, password:password, first_name:fname, last_name :lname};
 		console.log(data);
-		const resp=await axios.post(`https://discussionsummarizerbackend-production.up.railway.app/signup`,data).then((response) => {
+		const resp=await axios.post(`http://localhost:5000/signup`,data).then((response) => {
 			console.log(response);
 			if (response.data == "User already exists") {	
 				Swal.fire({	
