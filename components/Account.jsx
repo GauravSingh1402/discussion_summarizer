@@ -74,6 +74,36 @@ const Account = () => {
     }
   };
 
+  const summary_delete = async (summary,sumid) => {
+    const udata = {
+      u_mail: user,
+      summ_id:sumid
+    };
+    const response = await axios
+      .post(`${link}delete_summary`, udata, {
+        headers: {
+          "Content-type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.message == "Summary item deleted.") {
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Summary Deleted",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Summary Not Deleted",
+          });
+        }
+      });
+  }
+
   const summary_download = async (text) =>
   {
     const udata={
@@ -244,7 +274,7 @@ const Account = () => {
   };
   useEffect(() => {
     profile();
-  }, []);
+  }, [discussion]);
   return (
     <div className="flex flex-col items-center w-full px-5 py-8 justify-center gap-10">
       <h1 className="text-white text-3xl text-transparent bg-clip-text font-heading font-bold bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
@@ -361,6 +391,11 @@ const Account = () => {
                           {
                             summary_download(item.summary)}} className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
                           Download Summary
+                        </button>
+                        <button onClick={()=>
+                          {
+                            summary_delete(item.summary,item.summary_id)}} className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-2 rounded-md font-semibold hover:scale-105 transition-all shadow-lg">
+                          Delete Summary
                         </button>
                       </div>
                     ))}
