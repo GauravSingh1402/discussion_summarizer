@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-const Summary = ({ title, summary }) => {
+const Summary = ({ title, summary,text }) => {
   const [currentWord, setCurrentWord] = useState(0);
   const [isReading, setIsReading] = useState(false);
   // Regular expression to split summary into words
   console.log(title,summary)
   const words = summary.match(/\S+/g);
   // Array of stop words
-  const stopWords = [
-    "a",
-    "an",
-    "the",
+  const stopWords = ["a","an","the",
     "and",
     "or",
     "but",
@@ -80,7 +77,7 @@ const Summary = ({ title, summary }) => {
     setCurrentWord(0); // reset current word when speech is stopped
   };
   const link = "http://localhost:5000/";
-  const profile = async (title, summary) => {
+  const profile = async () => {
     const res = await axios(`${link}auth`, {
       method: "GET",
       headers: {
@@ -89,7 +86,6 @@ const Summary = ({ title, summary }) => {
       },
       withCredentials: true,
     });
-    console.log(res);
     const email = res.data.user_id;
     const udata = {
       email: email,
@@ -99,7 +95,6 @@ const Summary = ({ title, summary }) => {
         text: text,
       },
     };
-    console.log(udata);
     if (res.status == 200 && res.data.user_id != undefined) {
       const resp = await axios
         .post(`${link}save_summary`, udata, {
