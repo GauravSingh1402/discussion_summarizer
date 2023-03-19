@@ -57,7 +57,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/getS3UrlOcr",
+        "http://localhost:2000/getS3UrlOcr",
         body,
         {
           headers: {
@@ -89,7 +89,7 @@ const TextForm = ({ onSubmit, onPrev, data }) => {
 	console.log(data);
    try {
       const response = await axios.post(
-        "http://localhost:5000/extract-text",
+        "http://localhost:2000/extract-text",
         data,
         {
           headers: {

@@ -70,7 +70,7 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/getS3Url",
+        "http://localhost:2000/getS3Url",
         body,
         {
           headers: {

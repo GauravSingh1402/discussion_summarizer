@@ -66,7 +66,7 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/getS3UrlVideo",
+        "http://localhost:2000/getS3UrlVideo",
         body,
         {
           headers: {
@@ -99,7 +99,7 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
     console.log(data);
     try {
       const response = await axios.post(
-        "http://localhost:5000/transcribe",
+        "http://localhost:2000/transcribe",
         data,
         {
           headers: {

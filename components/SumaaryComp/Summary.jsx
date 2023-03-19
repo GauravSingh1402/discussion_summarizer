@@ -79,7 +79,7 @@ const Summary = ({ title, summary }) => {
     setIsReading(false);
     setCurrentWord(0); // reset current word when speech is stopped
   };
-  const link = "https://discussionsummarizerbackend-production.up.railway.app/";
+  const link = "http://localhost:5000/";
   const profile = async (title, summary) => {
     const res = await axios(`${link}auth`, {
       method: "GET",
