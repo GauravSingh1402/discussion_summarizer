@@ -10,7 +10,7 @@ const CustomizeSummary = ({ onPrev, onSubmit, data }) => {
 		console.log(data);
 		const body = {
 			text: data["text"],
-			num_sent: parseInt(values),
+			isConversation: data["isConversation"],
 		};
 		console.log(body);
 		const response = await axios

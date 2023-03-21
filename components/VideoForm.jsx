@@ -107,10 +107,15 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
           },
         }
       );
-
+let isInterview = true;
+      if(response.data["transcript"].includes("spk_1")==false){
+        console.log("entered");
+        response.data["transcript"]=response.data["transcript"].slice(14)
+        isInterview=false;
+      }
       setswitchDisplay("result");
       setText(response.data["transcript"]);
-      setValues({ ...values, text: response.data["transcript"] });
+      setValues({ ...values, text: response.data["transcript"] ,isConversation: isInterview,doCheck: false });
       setProgressText("Not Uploaded");
       setDisableBtn(!disableBtn);
       setUploadProgress(0);
