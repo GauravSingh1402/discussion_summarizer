@@ -51,14 +51,14 @@ const SummaryOutput = () => {
           <h2 className="font-heading font-medium text-left my-3">
             Top Summary
           </h2>
-          <Summary title={title} summary={convo_bart} />
+          <Summary title={title} summary={convo_bart} text={text}/>
           <div>
             <hr className="h-px my-8 border-0 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"></hr>
           </div>
           <h2 className="font-heading font-medium text-left my-3">
             Summary
           </h2>
-          <Summary title={title} summary={bart} />
+          <Summary title={title} summary={bart} text={text}/>
         </div>
       </div>
       </>:
@@ -98,17 +98,17 @@ const SummaryOutput = () => {
           <h2 className="font-heading font-medium text-left my-3">
             Top Summary
           </h2>
-          <Summary title={title} summary={bart} />
+          <Summary title={title} summary={bart} text={text}/>
           <div>
             <hr className="h-px my-8 border-0 bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"></hr>
           </div>
           <h2 className="font-heading font-medium text-left my-3">
             Other Summaries
           </h2>
-          <Summary title={title} summary={kl}/>
+          <Summary title={title} summary={kl} text={text}/>
           <br/>
           <br/>
-          <Summary title={title} summary={lsa} />
+          <Summary title={title} summary={lsa} text={text}/>
         </div>
       </div>
       </>
