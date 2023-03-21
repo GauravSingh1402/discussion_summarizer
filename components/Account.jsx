@@ -3,11 +3,13 @@ import { useTheme } from "next-themes";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import { useSession, signIn, signOut ,getSession} from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 
 const Account = () => {
   const { theme, setTheme } = useTheme();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [selected, setSelected] = useState(0);
   const [user, setUser] = useState();
@@ -25,7 +27,12 @@ const Account = () => {
   const [previewsource, setPreviewSource] = useState();
   const [open, setOpen] = useState(false);
   const logout = async () => {
+    const session = await getSession();
     try {
+      if (session)
+      {
+        signOut({ callbackUrl: '/' })
+      }
       const response = await axios(`${link}logout`, {
         method: "GET",
         headers: {
