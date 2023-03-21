@@ -111,10 +111,17 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
           },
         }
       );
-
+      console.log(response.data["transcript"].includes("spk_1"));
+      console.log(typeof(response.data["transcript"]));
+      let isInterview = true;
+      if(response.data["transcript"].includes("spk_1")==false){
+        console.log("entered");
+        response.data["transcript"]=response.data["transcript"].slice(14)
+        isInterview=false;
+      }
       setswitchDisplay("result");
       setText(response.data["transcript"]);
-      setValues({ ...values, text: response.data["transcript"] });
+      setValues({ ...values, text: response.data["transcript"],isConversation: isInterview });
       setProgressText("Not Uploaded");
       setDisableBtn(!disableBtn);
       setUploadProgress(0);

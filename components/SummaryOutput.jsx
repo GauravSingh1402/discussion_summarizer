@@ -26,9 +26,9 @@ const SummaryOutput = () => {
           <h2 className="font-heading font-medium text-left my-3">
             Generated Title
           </h2>
-      <div className='w-full md:w-[75%]'>
-        <div className="flex w-full items-end justify-end bg-white text-black rounded-t-md">
-        <div className="text-justify text-sm sm:text-lg w-full bg-white p-3 text-black rounded-b-md font-small min-h-[200px] max-h-[200px] h-[200px] overflow-y-auto overflow-x-hidden">
+      <div className='w-full flex flex-col md:flex-row items-start justify-between'>
+        <div className="flex w-full md:w-[75%]  items-end justify-end bg-white text-black rounded-md">
+        <div className="text-justify text-sm sm:text-lg w-full bg-white p-3 text-black rounded-md font-small min-h-[100px] max-h-[100px] h-[100px] overflow-y-auto overflow-x-hidden">
         {title}
       </div>
       </div>
