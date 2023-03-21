@@ -121,7 +121,7 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
       }
       setswitchDisplay("result");
       setText(response.data["transcript"]);
-      setValues({ ...values, text: response.data["transcript"],isConversation: isInterview });
+      setValues({ ...values, text: response.data["transcript"],isConversation: isInterview,doCheck: false });
       setProgressText("Not Uploaded");
       setDisableBtn(!disableBtn);
       setUploadProgress(0);

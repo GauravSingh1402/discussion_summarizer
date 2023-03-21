@@ -9,6 +9,7 @@ const StepForm = ({ currentTab }) => {
 	const [step, setStep] = useState(1);
 	const [data, setData] = useState({ limit: 100, top: 10 });
 	const handleNext = (values) => {
+		console.log(values);
 		setData({ ...data, ...values });
 		setStep(step + 1);
 	};
