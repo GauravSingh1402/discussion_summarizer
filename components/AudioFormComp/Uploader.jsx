@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import ClockLoader from "react-spinners/ClockLoader";
 const Uploader = ({ onSubmit, onPrev, data }) => {
   const { theme, setTheme } = useTheme();
   const [uploadedfile, setUploadedFile] = useState();
@@ -201,27 +202,12 @@ const Uploader = ({ onSubmit, onPrev, data }) => {
             </div>
           ) : (
             <div className="my-2 w-full flex flex-col items-center justify-center">
-              <svg
-                className="animate-spin text-content w-20 h-20 feather feather-loader"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <line x1="12" x2="12" y1="2" y2="6" />
-                <line x1="12" x2="12" y1="18" y2="22" />
-                <line x1="4.93" x2="7.76" y1="4.93" y2="7.76" />
-                <line x1="16.24" x2="19.07" y1="16.24" y2="19.07" />
-                <line x1="2" x2="6" y1="12" y2="12" />
-                <line x1="18" x2="22" y1="12" y2="12" />
-                <line x1="4.93" x2="7.76" y1="19.07" y2="16.24" />
-                <line x1="16.24" x2="19.07" y1="7.76" y2="4.93" />
-              </svg>
+              <ClockLoader
+			loading={true}
+  color=" #f89b29"
+  size={120}
+  speedMultiplier={0.5}
+/>
               <p>{progressText}</p>
               <p className="text-gray-300 text-xs italic">
                 This might take several minutes ...

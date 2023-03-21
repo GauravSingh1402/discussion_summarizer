@@ -160,7 +160,7 @@ const Summary = ({ title, summary,text }) => {
           
         </div>
         <div className="text-justify text-sm sm:text-lg w-full bg-white p-3 text-black rounded-b-md font-small min-h-[200px] max-h-[200px] h-[200px] overflow-y-auto overflow-x-hidden">
-        {words.map((word, i) => (
+        {words?.map((word, i) => (
           <span
             key={i}
             className={
