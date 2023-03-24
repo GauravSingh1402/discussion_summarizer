@@ -3,9 +3,8 @@ import { useTheme } from "next-themes";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-import { useSession, signIn, signOut ,getSession} from "next-auth/react";
+import { useSession, signOut ,getSession} from "next-auth/react";
 import Link from "next/link";
-import Image from "next/image";
 
 const Account = () => {
   const { theme, setTheme } = useTheme();
