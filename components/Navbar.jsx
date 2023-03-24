@@ -118,7 +118,7 @@ const Navbar = () => {
 							</li>
 						)}
 						<li className="my-2 text-lg  mx-4 cursor-pointer hover:underline transition-all">
-							<Link href="/generateSummary">Summary</Link>
+							<Link href="/generateSummary">Generate Summary</Link>
 						</li>
 					</ul>
 				</div>

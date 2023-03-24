@@ -22,16 +22,22 @@ const LandingPage = () => {
 						Get the gist of any text, audio or video in seconds with Summasense,
 						the AI-powered summarization tool
 					</p>
-					<button className="self-center text-white md:self-start bg-gradient-to-r gap-2 text-lg flex items-center from-custom-gradient-start to-custom-gradient-end px-5 py-3 font-semibold w-fit rounded-md">
+					<button
+						onClick={() => {
+							Router.push("/generateSummary");
+						}}
+						className="self-center text-white md:self-start bg-gradient-to-r gap-2 text-lg flex items-center from-custom-gradient-start to-custom-gradient-end px-5 py-3 font-semibold w-fit rounded-md"
+					>
 						Generate Summary
 						<ArrowRightCircleIcon className="w-8 h-8" />
 					</button>
 				</div>
-				<div className="hidden md:flex md:w-[45%] justify-center py-10">
+				<div className="hidden relative md:flex md:w-[45%] justify-center py-10">
+					<div className="absolute inset-0 w-[400px] h-[400px]"></div>
 					<Image
-						className="scale-75 lg:scale-90"
+						className="scale-75"
 						src={videofolder}
-						width={350}
+						width={400}
 						height={200}
 					/>
 				</div>
