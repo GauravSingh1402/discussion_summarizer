@@ -81,7 +81,6 @@ const Account = () => {
       u_mail: user,
       summ_id: sumid,
     };
-    console.log(summary, sumid, udata);
     const response = await axios
       .post(`${link}delete_summary`, udata, {
         headers: {
@@ -90,7 +89,6 @@ const Account = () => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.data.message == "Summary item deleted.") {
           Swal.fire({
             icon: "success",

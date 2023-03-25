@@ -30,8 +30,6 @@ const Navbar = () => {
         },
         withCredentials: true,
       });
-      console.log(res);
-      console.log(res.data);
       if (res.data !== "Unauthorized") {
         const email = res.data.user_id;
         console.log(email);
