@@ -14,14 +14,75 @@ const Reset = () => {
   const [cpassword, setCPassword] = useState(" ");
   const token = router.query.token;
   console.log("token", token);
+  function strong_password() {
+    var flag = 0;
+    if (password.length < 8) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should be atleast 8 characters long",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "0" && password[i] <= "9") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one number",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    flag = 0;
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "A" && password[i] <= "Z") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one uppercase letter",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    flag = 0;
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "a" && password[i] <= "z") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one lowercase letter",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    return true;
+  }
   const reset = async () => {
+    let x=strong_password(password);
     const udata = {
       password: password,
       cpassword: cpassword,
       token: token,
     };
     try {
-      if (password == cpassword && password.length > 0) {
+      if (password == cpassword && password.length > 0 && x==true) {
         const response = await axios
           .post(`${linkk}reset_password`, udata, {
             headers: {

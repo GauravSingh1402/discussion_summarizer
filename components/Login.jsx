@@ -5,210 +5,197 @@ import Swal from "sweetalert2";
 // import { GoogleAuth } from "google-auth-library";
 import dynamic from "next/dynamic";
 import loadGoogleScript from "../public/googleScript";
-import { useSession, signIn, signOut ,getSession} from "next-auth/react";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-const Login =  () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const linkk =
-    "http://localhost:5000/";
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [flag,setFlag] = useState(0);
-  const ses= getSession();
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const gsignin = async () => {
-    const session = await getSession();
-    if(session )
-    {
-      const udata = {
-        email: session.user.email,
-      };
-      const response = await axios
-          .post(
-            `${linkk}glogin`,
-            udata,
-            {
-              headers: {
-                "Content-type": "application/json",
-              },
-        withCredentials:true
-            }
-          )
-          .then((response) => {
-            console.log(response.data);
-            if (response.data=="login successfull")
-            {
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Login Successfull',
-              })
-              router.push('/')
-            }
-          })
-        
-    }
-  }
+const Login = () => {
+	const { data: session, status } = useSession();
+	const router = useRouter();
+	const linkk = "http://localhost:5000/";
+	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState("");
+	const [name, setName] = useState("");
+	const [flag, setFlag] = useState(0);
+	const ses = getSession();
+	const clientId = process.env.GOOGLE_CLIENT_ID;
+	const gsignin = async () => {
+		const session = await getSession();
+		if (session) {
+			const udata = {
+				email: session.user.email,
+			};
+			const response = await axios
+				.post(`${linkk}glogin`, udata, {
+					headers: {
+						"Content-type": "application/json",
+					},
+					withCredentials: true,
+				})
+				.then((response) => {
+					console.log(response.data);
+					if (response.data == "login successfull") {
+						Swal.fire({
+							icon: "success",
+							title: "Success",
+							text: "Login Successfull",
+						});
+						router.push("/");
+					}
+				});
+		}
+	};
 
-  const handleSignIn = async () => {
-    try {
-      result=await signIn("google");
-      } catch (error) {
-      console.log("Google sign-in error:", error);
-    }
-  };
-  const forgot_password = async () =>
-  {
-    const udata = {
-      email: email,
-    };
-    const response = await axios
-          .post(
-            `${linkk}forgot_password`,
-            udata,
-            {
-              headers: {
-                "Content-type": "application/json",
-              },
-        withCredentials:true
-            }
-          )
-          .then((response) => {
-            console.log(response.data.data);
-            if (response.data.data=="success")
-            {
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Password reset link sent to your email',
-              })
-            }
-            else
-            {
-              Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please Enter your Email',
-              })
-            }
-          })
-  }
-  const submit = async () => {
-    const udata = {
-      email: email,
-      password: password,
-    };
-    try {
-      const response = await axios
-        .post(`${linkk}login`, udata, {
-          headers: {
-            "Content-type": "application/json",
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data == "login successfull") {
-            router.push("/");
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Invalid Credentials!",
-            });
-          }
-        })
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  if(flag==0)
-  {
-    gsignin();
-    setFlag(1);
-   
-  }
-  return (
-    <div className="relative flex w-full h-full justify-center items-center">
-      <div className="absolute m-auto inset-0 w-[85%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-md rounded-md"></div>
-      <form className="relative w-[85%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] bg-light-primary p-8 rounded-md flex flex-col items-center gap-5">
-        <h1 className="font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
-          Login
-        </h1>
-        <p className="text-dark-primary">
-          New User?{" "}
-          <a
-            className="underline bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"
-            href="/signup"
-          >
-            Create an account
-          </a>
-        </p>
-        <div className="flex gap-5 flex-col w-full">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter your email address"
-            className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter your password"
-            className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className="flex w-full justify-between">
-            <div className="flex items-center gap-1">
-              <input
-                type="checkbox"
-                className=""
-                name="Remember"
-                id="Remember"
-              />
-              <label
-                htmlFor="Remember"
-                className="text-sm font-medium text-dark-secondary"
-              >
-                Remember me
-              </label>
-            </div>
-            <button     onClick={(e) => {
-            e.preventDefault();
-            forgot_password();
-          }} className="text-sm font-medium text-dark-secondary" >
-              Forgot Password?
-            </button>
-          </div>
-        </div>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            submit();
-          }}
-          className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105"
-        >
-          Login
-        </button>
+	const handleSignIn = async () => {
+		try {
+			result = await signIn("google");
+		} catch (error) {
+			console.log("Google sign-in error:", error);
+		}
+	};
+	const forgot_password = async () => {
+		const udata = {
+			email: email,
+		};
+		const response = await axios
+			.post(`${linkk}forgot_password`, udata, {
+				headers: {
+					"Content-type": "application/json",
+				},
+				withCredentials: true,
+			})
+			.then((response) => {
+				console.log(response.data.data);
+				if (response.data.data == "success") {
+					Swal.fire({
+						icon: "success",
+						title: "Success",
+						text: "Password reset link sent to your email",
+					});
+				} else {
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Please Enter your Email",
+					});
+				}
+			});
+	};
+	const submit = async () => {
+		const udata = {
+			email: email,
+			password: password,
+		};
+		try {
+			const response = await axios
+				.post(`${linkk}login`, udata, {
+					headers: {
+						"Content-type": "application/json",
+					},
+					withCredentials: true,
+				})
+				.then((response) => {
+					console.log(response.data);
+					if (response.data == "login successfull") {
+						router.push("/");
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "Invalid Credentials!",
+						});
+					}
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	if (flag == 0) {
+		gsignin();
+		setFlag(1);
+	}
+	return (
+		<div className="relative flex w-full h-full justify-center items-center">
+			<div className="absolute m-auto inset-0 w-[85%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-md rounded-md"></div>
+			<form className="relative w-[85%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] bg-light-primary p-8 rounded-md flex flex-col items-center gap-5">
+				<h1 className="font-heading text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
+					Login
+				</h1>
+				<p className="text-dark-primary">
+					New User?{" "}
+					<a
+						className="underline bg-clip-text text-transparent bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end"
+						href="/signup"
+					>
+						Create an account
+					</a>
+				</p>
+				<div className="flex gap-5 flex-col w-full">
+					<input
+						type="email"
+						name="email"
+						id="email"
+						placeholder="Enter your email address"
+						className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
+						onChange={(e) => setEmail(e.target.value)}
+					/>
+					<input
+						type="password"
+						name="password"
+						id="password"
+						placeholder="Enter your password"
+						className="rounded-md p-4 w-full outline-none bg-gray-200 text-black"
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+					<div className="flex w-full justify-between">
+						<div className="flex items-center gap-1">
+							<input
+								type="checkbox"
+								className=""
+								name="Remember"
+								id="Remember"
+							/>
+							<label
+								htmlFor="Remember"
+								className="text-sm font-medium text-dark-secondary"
+							>
+								Remember me
+							</label>
+						</div>
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								forgot_password();
+							}}
+							className="text-sm font-medium text-dark-secondary"
+						>
+							Forgot Password?
+						</button>
+					</div>
+				</div>
+				<button
+					onClick={(e) => {
+						e.preventDefault();
+						submit();
+					}}
+					className="bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105"
+				>
+					Login
+				</button>
 
-        <div className="w-full flex items-center">
-          <div className="border border-custom-gradient-start h-[1px] flex-1"></div>
-          <h4 className="mx-2 font-heading font-semibold text-dark-secondary">
-            OR
-          </h4>
-          <div className="border border-custom-gradient-end h-[1px] flex-1"></div>
-        </div>
-        <button  
-          onClick={(e) => {
-            e.preventDefault();
-            handleSignIn();
-          }}className="bg-light-secondary text-light-content flex items-center gap-4 justify-center font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105">
+				<div className="w-full flex items-center">
+					<div className="border border-custom-gradient-start h-[1px] flex-1"></div>
+					<h4 className="mx-2 font-heading font-semibold text-dark-secondary">
+						OR
+					</h4>
+					<div className="border border-custom-gradient-end h-[1px] flex-1"></div>
+				</div>
+				<button
+					onClick={(e) => {
+						e.preventDefault();
+						handleSignIn();
+					}}
+					className="bg-light-secondary text-light-content flex items-center gap-4 justify-center font-heading font-medium rounded-md w-full py-4 transition-all hover:scale-105"
+				>
 					<svg className="w-5 h-5" viewBox="0 0 128 128">
 						<path
 							fill="#fff"
@@ -231,11 +218,11 @@ const Login =  () => {
 							d="M8.75 92.4q10.37-8 20.73-16.08A39.3 39.3 0 0044 95.74a37.16 37.16 0 0014.08 6.08 41.29 41.29 0 0015.1 0 36.16 36.16 0 0013.93-5.5c6.69 5.22 13.41 10.4 20.1 15.62a57.13 57.13 0 01-25.9 13.47 67.6 67.6 0 01-32.36-.35 63 63 0 01-23-11.59A63.73 63.73 0 018.75 92.4z"
 						></path>
 					</svg>
-					<p>Sign up with Google</p>
+					<p>Login with Google</p>
 				</button>
-      </form>
-    </div>
-  );
+			</form>
+		</div>
+	);
 };
 
 export default Login;

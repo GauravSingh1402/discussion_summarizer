@@ -14,7 +14,7 @@ const AudioForm = ({ onSubmit, onPrev, data }) => {
         className={`flex w-[100%] justify-between rounded-xl bg-${theme}-secondary `}
       >
         <button
-          className={`w-1/2   text-sm sm:text-md md:text-lg py-2 md:py-3 rounded-lg sm:rounded-md font-medium ${
+          className={`w-1/2   text-sm sm:text-md md:text-lg py-2 md:py-3 rounded-tl-lg sm:rounded-tl-md font-medium ${
             currentTab == "Record" &&
             " bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white"
           }`}
@@ -25,7 +25,7 @@ const AudioForm = ({ onSubmit, onPrev, data }) => {
           Record Audio
         </button>
         <button
-          className={`w-1/2   text-sm sm:text-md md:text-lg py-2 md:py-3 rounded-lg sm:rounded-md font-medium ${
+          className={`w-1/2   text-sm sm:text-md md:text-lg py-2 md:py-3 rounded-tr-lg sm:rounded-tr-md font-medium ${
             currentTab == "Upload" &&
             " bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white"
           }`}

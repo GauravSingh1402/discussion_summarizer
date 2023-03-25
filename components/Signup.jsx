@@ -124,7 +124,7 @@ const Signup = () => {
   const submit = async () => {
     const fname = name.slice(0, name.indexOf(" "));
     const lname = name.slice(name.indexOf(" ") + 1, name.length);
-    const pass = strong_password();
+    const pass = strong_password(password);
     if (pass == true) {
       const data = {
         email: email,
