@@ -72,7 +72,7 @@ setValues({ ...values, [e.target.name]: e.target.value,isConversation: isIntervi
 
     try {
       const response = await axios.post(
-        "http://localhost:2000/getS3UrlOcr",
+        "https://summasense-backend-service.onrender.com/getS3UrlOcr",
         body,
         {
           headers: {
@@ -104,7 +104,7 @@ setValues({ ...values, [e.target.name]: e.target.value,isConversation: isIntervi
     console.log(data);
     try {
       const response = await axios.post(
-        "http://localhost:2000/extract-text",
+        "https://summasense-backend-service.onrender.com/extract-text",
         data,
         {
           headers: {

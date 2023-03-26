@@ -1,11 +1,20 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
+const rotateY = plugin(function ({ addUtilities }) {
+	addUtilities({
+		".rotate-y-20": {
+			transform: "rotateY(180deg)",
+		},
+	});
+});
+
 module.exports = {
 	content: [
 		"./pages/**/*.{js,ts,jsx,tsx}",
 		"./components/**/*.{js,ts,jsx,tsx}",
 		"./app/**/*.{js,ts,jsx,tsx}",
 	],
-	darkMode: 'class',
+	darkMode: "class",
 	theme: {
 		extend: {
 			colors: {
@@ -13,13 +22,13 @@ module.exports = {
 					primary: "#fafafa",
 					secondary: "#E5E5E5",
 					content: "#121212",
-					timepass: "#33ca47"
+					timepass: "#33ca47",
 				},
 				dark: {
 					primary: "#121212",
 					secondary: "#373737",
 					content: "#fafafa",
-					timepass: "#dd358f"
+					timepass: "#dd358f",
 				},
 				"custom-gradient": {
 					start: "#ff0f7b",
@@ -38,5 +47,6 @@ module.exports = {
 			backgroundColor: ["dark"],
 		},
 	},
-	plugins: [],
+	plugins: [rotateY],
 };
+

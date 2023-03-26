@@ -67,7 +67,7 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:2000/getS3UrlVideo",
+        "https://summasense-backend-service.onrender.com/getS3UrlVideo",
         body,
         {
           headers: {
@@ -100,7 +100,7 @@ const VideoForm = ({ onSubmit, onPrev, data }) => {
     console.log(data);
     try {
       const response = await axios.post(
-        "http://localhost:2000/transcribe",
+        "https://summasense-backend-service.onrender.com/transcribe",
         data,
         {
           headers: {

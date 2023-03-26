@@ -1,0 +1,83 @@
+.main{
+    perspective: 1000px;
+    background-color: aqua;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.book{
+    display:flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+.cover{
+    z-index: 1;
+    transition: all 3s;
+}
+.backCover{
+    z-index: -2;
+}
+.cover, .backCover{
+    width:300px;
+    height:450px;
+    background-color: rgb(105, 135, 162);
+    border-radius: 2px 20px 20px 2px;
+    position: absolute;
+    box-shadow: 1px 1px 10px gray;
+    transform: rotateX(10deg);
+    transform-origin: center left;
+}
+.page,.summary{
+    height: 420px;
+    width:280px;
+    background-color: white;
+    position: absolute;
+    z-index:2;
+    border-radius: 2px 20px 20px 2px;
+    transform: rotateX(10deg);
+    transform-origin: center left;
+    z-index: -1;
+}
+.book:hover .cover{
+    transform: rotateX(10deg) rotateY(-180deg);
+}
+.book:hover .page {
+    transform: rotateX(10deg) rotateY(-180deg);
+    z-index: 2;
+}
+.page:nth-child(2){
+    transition-duration: 3s;
+}
+.page:nth-child(3){
+    transition-duration: 2.6s;
+}
+.page:nth-child(4){
+    transition-duration: 2.2s;
+}
+.page:nth-child(5){
+    transition-duration: 1.8s;
+}
+.page:nth-child(6){
+    transition-duration: 1.4s;
+}
+.book:hover .page:nth-child(2){
+    transition-duration: 6s;
+}
+.book:hover .page:nth-child(3){
+    transition-duration: 5.6s;
+}
+.book:hover .page:nth-child(4){
+    transition-duration: 5.2s;
+}
+.book:hover .page:nth-child(5){
+    transition-duration: 4.8s;
+}
+.book:hover .page:nth-child(6){
+    transition-duration: 4.4s;
+}
+.summary{
+    z-index:-1;
+}
