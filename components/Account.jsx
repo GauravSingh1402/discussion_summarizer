@@ -20,6 +20,7 @@ const Account = () => {
   const [password, setPassword] = useState(" ");
   const [npassword, setNPassword] = useState(" ");
   const [cpassword, setCPassword] = useState(" ");
+  let x=false
   const [discussion, setDiscussion] = useState([]);
   const [edit, setedit] = useState(false);
   const link = "http://localhost:5000/";
@@ -292,7 +293,10 @@ const Account = () => {
       withCredentials: true,
     });
     if (res.data !== "Unauthorized") {
-      let x=strong_password(password);
+      if(npassword!=" ")
+      {
+        x=strong_password(npassword);
+      }
       const email = res.data.user_id;
       if (email != undefined) {
         const udata = {
