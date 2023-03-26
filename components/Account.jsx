@@ -3,9 +3,8 @@ import { useTheme } from "next-themes";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-import { useSession, signIn, signOut ,getSession} from "next-auth/react";
+import { useSession, signOut ,getSession} from "next-auth/react";
 import Link from "next/link";
-import Image from "next/image";
 
 const Account = () => {
   const { theme, setTheme } = useTheme();
@@ -26,6 +25,66 @@ const Account = () => {
   const link = "http://localhost:5000/";
   const [previewsource, setPreviewSource] = useState();
   const [open, setOpen] = useState(false);
+  function strong_password() {
+    var flag = 0;
+    if (password.length < 8) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should be atleast 8 characters long",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "0" && password[i] <= "9") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one number",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    flag = 0;
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "A" && password[i] <= "Z") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one uppercase letter",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    flag = 0;
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "a" && password[i] <= "z") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one lowercase letter",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    return true;
+  }
   const logout = async () => {
     const session = await getSession();
     try {
@@ -81,7 +140,6 @@ const Account = () => {
       u_mail: user,
       summ_id: sumid,
     };
-    console.log(summary, sumid, udata);
     const response = await axios
       .post(`${link}delete_summary`, udata, {
         headers: {
@@ -90,7 +148,6 @@ const Account = () => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.data.message == "Summary item deleted.") {
           Swal.fire({
             icon: "success",
@@ -132,6 +189,66 @@ const Account = () => {
     const file = e.target.files[0];
     previewFile(file);
   };
+  function strong_password() {
+    var flag = 0;
+    if (password.length < 8) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should be atleast 8 characters long",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "0" && password[i] <= "9") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one number",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    flag = 0;
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "A" && password[i] <= "Z") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one uppercase letter",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    flag = 0;
+    for (var i = 0; i < password.length; i++) {
+      if (password[i] >= "a" && password[i] <= "z") {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password should contain atleast one lowercase letter",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return false;
+    }
+    return true;
+  }
 
   const profile = async () => {
     try {
@@ -175,6 +292,7 @@ const Account = () => {
       withCredentials: true,
     });
     if (res.data !== "Unauthorized") {
+      let x=strong_password(password);
       const email = res.data.user_id;
       if (email != undefined) {
         const udata = {
@@ -208,8 +326,8 @@ const Account = () => {
           ) {
             if (
               (cpassword == npassword &&
-                cpassword != " " &&
-                password != npassword) ||
+                cpassword != " " && x==true) ||
+                password != npassword ||
               name != " " ||
               mail != " " ||
               previewsource != " "
