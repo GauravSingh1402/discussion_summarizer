@@ -6,6 +6,7 @@ import content from "../public/assets/content-marketing.png";
 import summary from "../public/assets/create-file.png";
 import Image from "next/image";
 import Router from "next/router";
+import saveSummary from "../public/assets/bookmark-folder.png";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 const LandingPage = () => {
@@ -72,13 +73,11 @@ const LandingPage = () => {
 							Choose The Media
 						</h3>
 						<h3 className="text-md md:text-lg font-sans text-justify sm:mx-5 w-2/3 mx-auto sm:w-auto">
-							Get the gist of any text, audio or video in seconds with
-							Summasense, the AI-powered summarization tool Get the gist of any
-							text, audio or video in seconds with Summasense, the AI-powered
-							summarization tool Get the gist of any text, audio or video in
-							seconds with Summasense, the AI-powered summarization tool Get the
-							gist of any text, audio or video in seconds with Summasense, the
-							AI-powered summarization tool.
+							Select the type of media you want to summarize - text, audio, or
+							video. For text, paste it into the provided textbox or upload a
+							document for OCR processing. For audio, record or upload an audio
+							file. For videos, upload the video file. SummaSense will handle
+							the necessary processing in the background.
 						</h3>
 					</div>
 				</div>
@@ -88,15 +87,15 @@ const LandingPage = () => {
 			>
 				<div className="w-full flex flex-col justify-evenly sm:gap-10 sm:w-[50%] align-center">
 					<h3 className="text-center text-xl sm:text-2xl lg:text-3xl font-medium font-heading my-5">
-						Lorem Ipsum
+						Generate Summaries
 					</h3>
 					<h3 className="text-md md:text-lg font-sans text-justify sm:mx-5 w-2/3 mx-auto sm:w-auto">
-						Get the gist of any text, audio or video in seconds with Summasense,
-						the AI-powered summarization tool Get the gist of any text, audio or
-						video in seconds with Summasense, the AI-powered summarization tool
-						Get the gist of any text, audio or video in seconds with Summasense,
-						the AI-powered summarization tool Get the gist of any text, audio or
-						video in seconds with Summasense, the AI-powered summarization tool.
+						SummaSense employs cutting-edge summarization models to analyze your
+						input. Multiple summary options will be generated, capturing the
+						essence of the original content. Choose the summary that best aligns
+						with your needs and preferences. SummaSense supports multilingual
+						summaries, breaking down language barriers for understanding
+						information.
 					</h3>
 				</div>
 				<div className="relative w-fit">
@@ -116,7 +115,38 @@ const LandingPage = () => {
 				</div>
 			</div>
 			<div
-				className={`flex flex-col sm:flex-row items-center justify-evenly w-full bg-${theme}-secondary py-10`}
+				className={`flex flex-col sm:flex-row items-center justify-evenly bg-${theme}-secondary py-10`}
+			>
+				<div className="relative w-fit">
+					<div
+						className={`absolute inset-0 w-full rounded-lg bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end blur-xl opacity-50 flex justify-center align-center`}
+					></div>
+					<div
+						className={`relative rounded-lg flex flex-col w-[300px] sm:h-[250px] lg:w-[400px] lg:h-[400px] bg-white`}
+					>
+						<Image
+							width={400}
+							height={400}
+							className="cursor-pointer"
+							src={saveSummary}
+						/>
+					</div>
+				</div>
+				<div className="w-full flex flex-col justify-evenly sm:gap-10 sm:w-[50%] align-center">
+					<h3 className="text-center text-xl sm:text-2xl lg:text-3xl font-medium font-heading my-5">
+						Save Summaries for Later
+					</h3>
+					<h3 className="text-md md:text-lg font-sans text-justify sm:mx-5 w-2/3 mx-auto sm:w-auto">
+						Once summaries are generated, you can save the ones you like to your
+						profile for future reference. Create an account on SummaSense to
+						enjoy this feature and access your summaries from anywhere, be it a
+						computer, tablet, or smartphone. Seamlessly integrate SummaSense
+						into your workflow and stay informed wherever you go.
+					</h3>
+				</div>
+			</div>
+			<div
+				className={`flex flex-col sm:flex-row-reverse items-center justify-evenly w-full py-10`}
 			>
 				<div className="relative w-fit">
 					<div
@@ -133,24 +163,27 @@ const LandingPage = () => {
 						/>
 					</div>
 				</div>
-				<div
-					className={`w-full flex flex-col justify-evenly gap-5 sm:w-[50%] items-center`}
-				>
+				<div className="w-full flex flex-col justify-evenly sm:gap-10 sm:w-[50%] align-center">
 					<h3 className="text-center text-xl sm:mx-5 w-2/3 mx-auto sm:w-auto sm:text-2xl lg:text-3xl font-bold font-heading my-5 text-transparent bg-clip-text bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end">
 						Unleash The Power Of AI Summarization With SummaSense
 					</h3>
 					<h3 className="text-md md:text-lg font-sans text-justify sm:mx-5 w-2/3 mx-auto sm:w-auto">
-						Get the gist of any text, audio or video in seconds with Summasense,
-						the AI-powered summarization tool
+						SummaSense simplifies the summarization process by allowing you to
+						choose your media type, generating accurate and comprehensive
+						summaries, and enabling easy access and organization of your saved
+						summaries. Join SummaSense today and experience the power of
+						efficient information summarization.
 					</h3>
-					<button
-						onClick={() => {
-							Router.push("/generateSummary");
-						}}
-						className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-3 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
-					>
-						Generate Summary For Free
-					</button>
+					<div className="w-full flex justify-center">
+						<button
+							onClick={() => {
+								Router.push("/generateSummary");
+							}}
+							className="w-fit bg-gradient-to-r from-custom-gradient-start to-custom-gradient-end text-white px-4 py-3 rounded-md font-semibold hover:scale-105 transition-all shadow-lg"
+						>
+							Generate Summary For Free
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
