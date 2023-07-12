@@ -58,7 +58,7 @@ To run SummaSense locally, follow these steps:
 ```
 git clone https://github.com/GauravSingh1402/discussion_summarizer.git
 ```
-2. For setting the backend of the project, follow the instructions in the [discussion_summarizer_backend](https://www.github.com/GauravSingh1402/discussion_summarizer) repository
+2. For setting the backend of the project, follow the instructions in the [discussion_summarizer_backend](https://www.github.com/GauravSingh1402/discussion_summarizer_backend) repository
 3. Navigate to the project directory:
 ```
 cd discussion_summarizer
